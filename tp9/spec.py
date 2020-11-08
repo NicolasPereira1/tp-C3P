@@ -15,17 +15,21 @@ def gen_header_class(cls):
     return "class " + cls_name + "(" + ",".join(superclasses_names) + "):\n"
 
 def gen_init_class(cls):
+    flag = False
     attributes = []
     for k, v in cls.__dict__.items():
         if isinstance(v, Attribute):
+            flag = True
             attributes.append(k)
-    res = "\tdef __init__(self" 
-    for attribute in attributes:
-        res += ", " + attribute + "=None"
-    res += "):\n"
-    for attribute in attributes:
-        res += "\t\tself." + attribute + " = " + attribute + "\n"
-
+    if flag :
+        res = "\tdef __init__(self" 
+        for attribute in attributes:
+            res += ", " + attribute + "=None"
+        res += "):\n"
+        for attribute in attributes:
+            res += "\t\tself." + attribute + " = " + attribute + "\n"
+    else :
+        res = "\tpass\n"
     return res  + "\n"
     
 def gen_getter_attribute(cls):
@@ -52,3 +56,18 @@ def gen_code_class(cls):
     code += gen_getter_attribute(cls)
     code += gen_setter_attribute(cls)
     return code
+
+def collect_specifications(mod):
+    code = ""
+    for k, v in mod.__dict__.items():
+        if hasattr(v,"specification"):
+            code += gen_code_class(v)
+    return code
+
+def gen_module(mod):
+    name = mod.__name__
+    code = collect_specifications(mod)
+    print(code)
+    file = open(name+"_gen.py", "w")
+    file.write(code)
+    file.close()
