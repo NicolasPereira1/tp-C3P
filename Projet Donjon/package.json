@@ -1,0 +1,14 @@
+{
+    "name": "projet_donjon",
+    "version": "0.1.0",
+    "scripts": {
+        "start" : "node dist/server.js",
+        "build" : "tsc -p ."
+    },
+    "dependencies": {
+        "@types/express": "^4.17.9",
+        "@types/node": "^14.14.7",
+        "ejs": "^3.1.5",
+        "express": "^4.17.1"
+    }
+}
