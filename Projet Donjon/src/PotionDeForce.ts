@@ -2,7 +2,7 @@ import {Objet} from './Objet';
 import {Consomable} from './Consomable';
 import { Joueur } from './Joueur';
 
-class PotionDeVie extends Consomable {
+class PotionDeForce extends Consomable {
     
     constructor(public prix:number, public effect:number){
         super("Potion de vie", prix);
@@ -12,4 +12,4 @@ class PotionDeVie extends Consomable {
         joueur.vie = joueur.vie + this.effect;   
     }
 }
-export {PotionDeVie};
+export {PotionDeForce};

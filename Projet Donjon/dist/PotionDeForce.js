@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PotionDeVie = void 0;
+exports.PotionDeForce = void 0;
 const Consomable_1 = require("./Consomable");
-class PotionDeVie extends Consomable_1.Consomable {
+class PotionDeForce extends Consomable_1.Consomable {
     constructor(prix, effect) {
         super("Potion de vie", prix);
         this.prix = prix;
@@ -12,4 +12,4 @@ class PotionDeVie extends Consomable_1.Consomable {
         joueur.vie = joueur.vie + this.effect;
     }
 }
-exports.PotionDeVie = PotionDeVie;
+exports.PotionDeForce = PotionDeForce;

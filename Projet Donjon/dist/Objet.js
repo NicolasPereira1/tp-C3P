@@ -6,5 +6,8 @@ class Objet {
         this.nom = nom;
         this.prix = prix;
     }
+    vendre(joueur) {
+        joueur.or = joueur.or + this.prix;
+    }
 }
 exports.Objet = Objet;
