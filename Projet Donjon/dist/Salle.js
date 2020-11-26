@@ -2,13 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Salle = void 0;
 class Salle {
-    constructor(nomSalle, salleNord, salleEst, salleSud, salleOuest) {
+    constructor(nomSalle, idNord, idEst, idSud, idOuest) {
         this.nomSalle = nomSalle;
-        this.salleNord = salleNord;
-        this.salleEst = salleEst;
-        this.salleSud = salleSud;
-        this.salleOuest = salleOuest;
+        this.idNord = idNord;
+        this.idEst = idEst;
+        this.idSud = idSud;
+        this.idOuest = idOuest;
         this.listeEntitee = [];
+        this.listeObjet = [];
     }
 }
 exports.Salle = Salle;
+Salle.donjon = [];

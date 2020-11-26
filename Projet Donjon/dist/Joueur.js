@@ -2,26 +2,52 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Joueur = void 0;
 const Entitee_1 = require("./Entitee");
-const PotionDeVie_1 = require("./PotionDeVie");
+const Salle_1 = require("./Salle");
 class Joueur extends Entitee_1.Entitee {
-    constructor(nom, vie, currentSalle) {
+    constructor(nom, vie, salleCourante) {
         super(nom, vie);
         this.nom = nom;
         this.vie = vie;
-        this.currentSalle = currentSalle;
+        this.salleCourante = salleCourante;
         this.force = 5;
         this.or = 0;
         this.sac = [];
     }
-    attaque(degat) {
+    deplacer(direction) {
+        if (Salle_1.Salle.donjon[direction] != null)
+            switch (direction) {
+                case this.salleCourante.idNord:
+                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                    break;
+                case this.salleCourante.idEst:
+                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                    break;
+                case this.salleCourante.idSud:
+                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                    break;
+                case this.salleCourante.idOuest:
+                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                    break;
+                default:
+                    console.log("Salle inaccéssible");
+            }
+    }
+    observerEntitee(idx) {
+        return this.salleCourante.listeEntitee[idx - 1];
+    }
+    observerObjet(idx) {
+        return this.salleCourante.listeObjet[idx - 1];
+    }
+    attaquer(degat) {
         this.vie = this.vie - degat;
     }
-    prendre(objet) {
-        this.sac.push(objet);
+    prendre(idx) {
+        let objet = this.salleCourante.listeObjet.splice(idx, idx + 1);
+        if (objet != null) {
+            this.sac.push(objet[0]);
+        }
     }
     consomme(indice) {
     }
 }
 exports.Joueur = Joueur;
-let p = new PotionDeVie_1.PotionDeVie(10, 20);
-console.log(p instanceof PotionDeVie_1.PotionDeVie);
