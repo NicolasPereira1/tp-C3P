@@ -1,15 +1,14 @@
-import {Objet} from './Objet';
-import {Consomable} from './Consomable';
 import { Joueur } from './Joueur';
+import { Objet } from './Objet';
 
-class PotionDeForce extends Consomable {
+class PotionDeForce extends Objet {
     
-    constructor(public prix:number, public effect:number){
-        super("Potion de vie", prix);
+    constructor(public nom:string, public prix:number, public effect:number){
+        super(nom, prix);
     }
 
-    consommer(joueur: Joueur): void {
-        joueur.vie = joueur.vie + this.effect;   
+    public utilise (joueur:Joueur):void {
+        joueur.force = joueur.force + this.effect;
     }
 }
 export {PotionDeForce};

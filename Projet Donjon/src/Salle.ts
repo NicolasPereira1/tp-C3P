@@ -2,9 +2,10 @@ import {Entitee} from './Entitee';
 import {Objet} from './Objet';
 
 class Salle {
+    public static donjon:Salle[] = [];
     public listeEntitee:Entitee[] = [];
     public listeObjet:Objet[] = [];
-    
-    constructor(public nomSalle:string, public salleNord:Salle|null, public salleEst:Salle|null, public salleSud:Salle|null, public salleOuest:Salle|null){}
+
+    constructor(public nomSalle:string, public idNord:number|null, public idEst:number|null, public idSud:number|null, public idOuest:number|null){}
 }
 export {Salle};
