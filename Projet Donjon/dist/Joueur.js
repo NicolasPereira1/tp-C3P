@@ -9,6 +9,7 @@ class Joueur extends Entitee_1.Entitee {
         this.nom = nom;
         this.vie = vie;
         this.salleCourante = salleCourante;
+        this.arme = null;
         this.force = 5;
         this.or = 0;
         this.sac = [];
@@ -47,7 +48,14 @@ class Joueur extends Entitee_1.Entitee {
             this.sac.push(objet[0]);
         }
     }
-    consomme(indice) {
+    utiliser(idx) {
+        let objet = this.sac.splice(idx, idx + 1);
+        if (objet != null)
+            objet[0].utilise(this);
+    }
+    deEquiper() {
+        if (this.arme != null)
+            this.arme.deEquipe();
     }
 }
 exports.Joueur = Joueur;

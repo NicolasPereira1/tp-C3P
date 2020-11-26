@@ -8,6 +8,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const Joueur_1 = require("./Joueur");
 const Salle_1 = require("./Salle");
 const PotionDeVie_1 = require("./PotionDeVie");
+const Arme_1 = require("./Arme");
 let app = express_1.default();
 let joueur;
 app.use(express_1.default.static("public"));
@@ -17,7 +18,9 @@ app.get('/', function (req, res) {
     Salle_1.Salle.donjon[1] = new Salle_1.Salle("Cuisine", null, null, null, 0);
     Salle_1.Salle.donjon[2] = new Salle_1.Salle("Chambre", 0, null, null, null);
     Salle_1.Salle.donjon[3] = new Salle_1.Salle("Salle de bain", null, 0, null, null);
-    Salle_1.Salle.donjon[0].listeObjet[0] = new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10);
+    Salle_1.Salle.donjon[1].listeObjet.push(new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10));
+    Salle_1.Salle.donjon[2].listeObjet.push(new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10));
+    Salle_1.Salle.donjon[2].listeObjet.push(new Arme_1.Arme("Épée en bois", 10, 5));
     joueur = new Joueur_1.Joueur("Link", 50, Salle_1.Salle.donjon[0]);
     res.render('index.ejs');
 });
@@ -39,6 +42,12 @@ app.get('/observerObjet/:uid', function (req, res) {
 });
 app.get('/prendre/:uid', function (req, res) {
     res.send(joueur.prendre(+req.params.uid));
+});
+app.get('/utiliser/:uid', function (req, res) {
+    res.send(joueur.utiliser(+req.params.uid));
+});
+app.get('/deEquipe', function (req, res) {
+    res.send(joueur.deEquiper());
 });
 app.post('/attaque', function (req, res) {
     console.log(req.body);

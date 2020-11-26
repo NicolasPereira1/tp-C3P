@@ -61,7 +61,7 @@ class Joueur extends Entitee {
 
     deEquiper():void{
         if(this.arme != null)
-            this.arme.deEquipe();
+            this.arme.deEquipe(this);
     }
 }
 export {Joueur};
