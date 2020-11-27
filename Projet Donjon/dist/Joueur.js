@@ -55,7 +55,7 @@ class Joueur extends Entitee_1.Entitee {
     }
     deEquiper() {
         if (this.arme != null)
-            this.arme.deEquipe();
+            this.arme.deEquipe(this);
     }
 }
 exports.Joueur = Joueur;

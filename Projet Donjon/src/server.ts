@@ -4,6 +4,7 @@ import {Joueur} from './Joueur';
 import { Salle } from './Salle';
 import { PotionDeVie } from './PotionDeVie';
 import { Arme } from './Arme';
+import { PotionDeForce } from './PotionDeForce';
 
 let app = express();
 let joueur:Joueur;
@@ -18,7 +19,7 @@ app.get('/', function(req, res) {
     Salle.donjon[3] = new Salle("Salle de bain",null,0,null,null);
 
     Salle.donjon[1].listeObjet.push(new PotionDeVie("Potion de vie I", 20, 10));
-    Salle.donjon[2].listeObjet.push(new PotionDeVie("Potion de vie I", 20, 10));
+    Salle.donjon[2].listeObjet.push(new PotionDeForce("Potion de force I", 25, 5));
     Salle.donjon[2].listeObjet.push(new Arme("Épée en bois", 10, 5));
 
     joueur = new Joueur("Link", 50, Salle.donjon[0]);
@@ -47,11 +48,13 @@ app.get('/observerObjet/:uid', function(req, res) {
 });
 
 app.get('/prendre/:uid', function(req, res) {
-    res.send(joueur.prendre(+req.params.uid));
+    joueur.prendre(+req.params.uid)
+    res.send(joueur);
 });
 
 app.get('/utiliser/:uid', function(req, res) {
-    res.send(joueur.utiliser(+req.params.uid));
+    joueur.utiliser(+req.params.uid);
+    res.send(joueur);
 });
 
 app.get('/deEquipe', function(req, res) {
