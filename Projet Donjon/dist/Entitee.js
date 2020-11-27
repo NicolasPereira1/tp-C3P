@@ -6,5 +6,13 @@ class Entitee {
         this.nom = nom;
         this.vie = vie;
     }
+    remove(listeEntitee, entitee) {
+        let nouvelleListe = [];
+        for (let i = 0; i < listeEntitee.length; i++) {
+            if (listeEntitee[i] != entitee)
+                nouvelleListe.push(listeEntitee[i]);
+        }
+        return nouvelleListe;
+    }
 }
 exports.Entitee = Entitee;

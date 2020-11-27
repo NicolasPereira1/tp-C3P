@@ -25,12 +25,13 @@ app.get('/', function(req, res) {
     Salle.donjon[2].listeObjet.push(new Arme("Épée en bois", 10, 5));
     Salle.donjon[4].listeEntitee.push(new Hostile("Gros rat méchant", 10, 5));
 
-    joueur = new Joueur("Link", 50, Salle.donjon[0]);
+    joueur = new Joueur("Link", 50, 0);
+    Salle.donjon[0].listeEntitee.push(joueur);
     res.render('index.ejs');
 });
 
 app.get('/salleCourante', function(req, res) {
-    res.send(joueur.salleCourante);
+    res.send(Salle.donjon[joueur.salleId]);
 });
 
 app.get('/joueur', function(req, res) {
@@ -39,7 +40,7 @@ app.get('/joueur', function(req, res) {
 
 app.get('/deplacement/:uid', function(req, res) {
     joueur.deplacer(+req.params.uid);
-    res.send(joueur.salleCourante);
+    res.send(Salle.donjon[joueur.salleId]);
 });
 
 app.get('/observerEntitee/:uid', function(req, res) {

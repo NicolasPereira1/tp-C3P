@@ -20,23 +20,24 @@ app.get('/', function (req, res) {
     Salle_1.Salle.donjon[1] = new Salle_1.Salle("Cuisine", null, null, null, 0, null, null);
     Salle_1.Salle.donjon[2] = new Salle_1.Salle("Chambre", null, null, null, null, null, 0);
     Salle_1.Salle.donjon[3] = new Salle_1.Salle("Salle de bain", null, 0, null, null, null, null);
-    Salle_1.Salle.donjon[4] = new Salle_1.Salle("Cave", null, 0, null, null, 0, null);
+    Salle_1.Salle.donjon[4] = new Salle_1.Salle("Cave", null, null, null, null, 0, null);
     Salle_1.Salle.donjon[1].listeObjet.push(new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10));
     Salle_1.Salle.donjon[2].listeObjet.push(new PotionDeForce_1.PotionDeForce("Potion de force I", 25, 5));
     Salle_1.Salle.donjon[2].listeObjet.push(new Arme_1.Arme("Épée en bois", 10, 5));
     Salle_1.Salle.donjon[4].listeEntitee.push(new Hostile_1.Hostile("Gros rat méchant", 10, 5));
-    joueur = new Joueur_1.Joueur("Link", 50, Salle_1.Salle.donjon[0]);
+    joueur = new Joueur_1.Joueur("Link", 50, 0);
+    Salle_1.Salle.donjon[0].listeEntitee.push(joueur);
     res.render('index.ejs');
 });
 app.get('/salleCourante', function (req, res) {
-    res.send(joueur.salleCourante);
+    res.send(Salle_1.Salle.donjon[joueur.salleId]);
 });
 app.get('/joueur', function (req, res) {
     res.send(joueur);
 });
 app.get('/deplacement/:uid', function (req, res) {
     joueur.deplacer(+req.params.uid);
-    res.send(joueur.salleCourante);
+    res.send(Salle_1.Salle.donjon[joueur.salleId]);
 });
 app.get('/observerEntitee/:uid', function (req, res) {
     res.send(joueur.observerEntitee(+req.params.uid));
@@ -53,7 +54,8 @@ app.get('/utiliser/:uid', function (req, res) {
     res.send(joueur);
 });
 app.get('/deEquipe', function (req, res) {
-    res.send(joueur.deEquiper());
+    joueur.deEquiper();
+    res.send(joueur);
 });
 app.post('/attaque', function (req, res) {
     console.log(req.body);

@@ -3,6 +3,7 @@ import { Entitee } from "./Entitee";
 import { Objet } from "./Objet";
 
 class Hostile extends Entitee {
+    public critique = 0.05;
     public arme:Arme|null = null;
     public sac:Objet[] = [];
 
@@ -12,6 +13,10 @@ class Hostile extends Entitee {
     
     attaquer(degat:number):void {
         this.vie = this.vie-degat;
+        if(Math.random()<this.critique){
+            console.log("Coup critique !");
+            this.vie = this.vie-degat*0.3;
+        }
     }
     
     utiliser(idx:number):void {

@@ -4,50 +4,55 @@ exports.Joueur = void 0;
 const Hostile_1 = require("./Hostile");
 const Salle_1 = require("./Salle");
 class Joueur extends Hostile_1.Hostile {
-    constructor(nom, vie, salleCourante) {
+    constructor(nom, vie, salleId) {
         super(nom, vie, 5);
         this.nom = nom;
         this.vie = vie;
-        this.salleCourante = salleCourante;
+        this.salleId = salleId;
         this.arme = null;
         this.or = 0;
         this.sac = [];
     }
     deplacer(direction) {
+        Salle_1.Salle.donjon[this.salleId].listeEntitee = this.remove(Salle_1.Salle.donjon[this.salleId].listeEntitee, this);
         if (Salle_1.Salle.donjon[direction] != null)
             switch (direction) {
-                case this.salleCourante.idNord:
-                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                case Salle_1.Salle.donjon[this.salleId].idNord:
+                    this.salleId = direction;
                     break;
-                case this.salleCourante.idEst:
-                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                case Salle_1.Salle.donjon[this.salleId].idEst:
+                    this.salleId = direction;
                     break;
-                case this.salleCourante.idSud:
-                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                case Salle_1.Salle.donjon[this.salleId].idSud:
+                    this.salleId = direction;
                     break;
-                case this.salleCourante.idOuest:
-                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                case Salle_1.Salle.donjon[this.salleId].idOuest:
+                    this.salleId = direction;
                     break;
-                case this.salleCourante.idHaut:
-                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                case Salle_1.Salle.donjon[this.salleId].idHaut:
+                    this.salleId = direction;
                     break;
-                case this.salleCourante.idBas:
-                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                case Salle_1.Salle.donjon[this.salleId].idBas:
+                    this.salleId = direction;
                     break;
                 default:
                     console.log("Salle inaccéssible");
             }
+        Salle_1.Salle.donjon[this.salleId].listeEntitee.push(this);
     }
     observerEntitee(idx) {
-        return this.salleCourante.listeEntitee[idx - 1];
+        return Salle_1.Salle.donjon[this.salleId].listeEntitee[idx];
     }
     observerObjet(idx) {
-        return this.salleCourante.listeObjet[idx - 1];
+        return Salle_1.Salle.donjon[this.salleId].listeObjet[idx];
     }
     prendre(idx) {
-        let objet = this.salleCourante.listeObjet.splice(idx, idx + 1);
+        let objet = Salle_1.Salle.donjon[this.salleId].listeObjet.splice(idx, idx + 1);
         if (objet != null) {
             this.sac.push(objet[0]);
+        }
+        else {
+            console.log("Cet objet n'existe pas");
         }
     }
 }

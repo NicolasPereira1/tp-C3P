@@ -8,13 +8,11 @@ class Arme extends Objet_1.Objet {
         this.nom = nom;
         this.prix = prix;
         this.degat = degat;
-        this.dejaUtilise = false;
     }
     utilise(hostile) {
-        if (this.dejaUtilise)
-            this.deEquipe(hostile);
-        else
-            this.equipe(hostile);
+        if (hostile.arme != null)
+            hostile.deEquiper();
+        this.equipe(hostile);
     }
     equipe(hostile) {
         if (hostile.arme != null)
