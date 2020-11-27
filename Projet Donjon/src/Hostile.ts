@@ -11,12 +11,21 @@ class Hostile extends Entitee {
         super(nom,vie);
     }
     
-    attaquer(degat:number):void {
-        this.vie = this.vie-degat;
+    combattre(hostile:Hostile):void {
+        this.attaquer(hostile);
+        if(hostile.vie>0)
+            hostile.combattre(this);
+    }
+
+    attaquer(entitee:Entitee):void{
+        console.log(this.nom + " attaque : " + entitee.nom);
+        entitee.vie = entitee.vie-this.force;
         if(Math.random()<this.critique){
-            console.log("Coup critique !");
-            this.vie = this.vie-degat*0.3;
+            console.log(this.nom + " donne un coup critique !");
+            entitee.vie = entitee.vie-this.force*0.3;
         }
+        if(entitee.vie<=0)
+            console.log(entitee.nom + " a succombé !");
     }
     
     utiliser(idx:number):void {

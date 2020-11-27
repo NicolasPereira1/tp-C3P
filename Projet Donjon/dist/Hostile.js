@@ -8,11 +8,24 @@ class Hostile extends Entitee_1.Entitee {
         this.nom = nom;
         this.vie = vie;
         this.force = force;
+        this.critique = 0.05;
         this.arme = null;
         this.sac = [];
     }
-    attaquer(degat) {
-        this.vie = this.vie - degat;
+    combattre(hostile) {
+        this.attaquer(hostile);
+        if (hostile.vie > 0)
+            hostile.combattre(this);
+    }
+    attaquer(entitee) {
+        console.log(this.nom + " attaque : " + entitee.nom);
+        entitee.vie = entitee.vie - this.force;
+        if (Math.random() < this.critique) {
+            console.log(this.nom + " donne un coup critique !");
+            entitee.vie = entitee.vie - this.force * 0.3;
+        }
+        if (entitee.vie <= 0)
+            console.log(entitee.nom + " a succombé !");
     }
     utiliser(idx) {
         let objet = this.sac.splice(idx, idx + 1);

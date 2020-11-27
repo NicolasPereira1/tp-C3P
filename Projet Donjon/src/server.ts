@@ -23,7 +23,7 @@ app.get('/', function(req, res) {
     Salle.donjon[1].listeObjet.push(new PotionDeVie("Potion de vie I", 20, 10));
     Salle.donjon[2].listeObjet.push(new PotionDeForce("Potion de force I", 25, 5));
     Salle.donjon[2].listeObjet.push(new Arme("Épée en bois", 10, 5));
-    Salle.donjon[4].listeEntitee.push(new Hostile("Gros rat méchant", 10, 5));
+    Salle.donjon[4].listeEntitee.push(new Hostile("Gros rat méchant", 20, 5));
 
     joueur = new Joueur("Link", 50, 0);
     Salle.donjon[0].listeEntitee.push(joueur);
@@ -66,8 +66,9 @@ app.get('/deEquipe', function(req, res) {
     res.send(joueur);
 });
 
-app.post('/attaque', function(req, res){
-    console.log(req.body);
+app.get('/attaque/:uid', function(req, res){
+    joueur.combattre(Salle.donjon[joueur.salleId].listeEntitee[+req.params.uid] as Hostile);
+    res.send(Salle.donjon[joueur.salleId]);
 })
 
 app.listen(8080);
