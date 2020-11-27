@@ -1,16 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Joueur = void 0;
-const Entitee_1 = require("./Entitee");
+const Hostile_1 = require("./Hostile");
 const Salle_1 = require("./Salle");
-class Joueur extends Entitee_1.Entitee {
+class Joueur extends Hostile_1.Hostile {
     constructor(nom, vie, salleCourante) {
-        super(nom, vie);
+        super(nom, vie, 5);
         this.nom = nom;
         this.vie = vie;
         this.salleCourante = salleCourante;
         this.arme = null;
-        this.force = 5;
         this.or = 0;
         this.sac = [];
     }
@@ -29,6 +28,12 @@ class Joueur extends Entitee_1.Entitee {
                 case this.salleCourante.idOuest:
                     this.salleCourante = Salle_1.Salle.donjon[direction];
                     break;
+                case this.salleCourante.idHaut:
+                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                    break;
+                case this.salleCourante.idBas:
+                    this.salleCourante = Salle_1.Salle.donjon[direction];
+                    break;
                 default:
                     console.log("Salle inaccéssible");
             }
@@ -39,23 +44,11 @@ class Joueur extends Entitee_1.Entitee {
     observerObjet(idx) {
         return this.salleCourante.listeObjet[idx - 1];
     }
-    attaquer(degat) {
-        this.vie = this.vie - degat;
-    }
     prendre(idx) {
         let objet = this.salleCourante.listeObjet.splice(idx, idx + 1);
         if (objet != null) {
             this.sac.push(objet[0]);
         }
-    }
-    utiliser(idx) {
-        let objet = this.sac.splice(idx, idx + 1);
-        if (objet != null)
-            objet[0].utilise(this);
-    }
-    deEquiper() {
-        if (this.arme != null)
-            this.arme.deEquipe(this);
     }
 }
 exports.Joueur = Joueur;

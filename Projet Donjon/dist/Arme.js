@@ -10,22 +10,22 @@ class Arme extends Objet_1.Objet {
         this.degat = degat;
         this.dejaUtilise = false;
     }
-    utilise(joueur) {
+    utilise(hostile) {
         if (this.dejaUtilise)
-            this.deEquipe(joueur);
+            this.deEquipe(hostile);
         else
-            this.equipe(joueur);
+            this.equipe(hostile);
     }
-    equipe(joueur) {
-        if (joueur.arme != null)
-            joueur.sac.push(joueur.arme);
-        joueur.arme = this;
-        joueur.force = joueur.force + this.degat;
+    equipe(hostile) {
+        if (hostile.arme != null)
+            hostile.sac.push(hostile.arme);
+        hostile.arme = this;
+        hostile.force = hostile.force + this.degat;
     }
-    deEquipe(joueur) {
-        joueur.arme = null;
-        joueur.sac.push(this);
-        joueur.force = joueur.force - this.degat;
+    deEquipe(hostile) {
+        hostile.arme = null;
+        hostile.sac.push(this);
+        hostile.force = hostile.force - this.degat;
     }
 }
 exports.Arme = Arme;

@@ -1,3 +1,4 @@
+import { Hostile } from './Hostile';
 import {Joueur} from './Joueur';
 
 abstract class Objet{
@@ -7,6 +8,6 @@ abstract class Objet{
         joueur.or = joueur.or + this.prix;
     }
 
-    abstract utilise (joueur: Joueur):void;
+    abstract utilise (hostile: Hostile):void;
 }
 export {Objet};
