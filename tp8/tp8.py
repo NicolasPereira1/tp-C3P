@@ -1,5 +1,9 @@
 class MatlExpression(object):
-    pass
+    def __init__(self, dictionnaire):
+        self.dictionnaire = dictionnaire
+
+    def assigner(self, variable, valeur):
+        self.dictionnaire[variable.nom] = valeur.calcule()
 
 class Valeur(MatlExpression):
     def __init__(self, a:float):
@@ -7,6 +11,13 @@ class Valeur(MatlExpression):
     
     def calcule(self):
         return self.a
+
+class Variable(MatlExpression):
+    def __init__(self, nom:str):
+        self.nom = nom
+    
+    def calcule(self):
+        return self.dictionnaire[self.nom]
 
 class OperationBinaire(MatlExpression):
     def __init__(self, symbole:str, a:MatlExpression, b:MatlExpression):
@@ -32,3 +43,9 @@ class OperationBinaire(MatlExpression):
 
 exp1 = OperationBinaire("+", OperationBinaire("-",OperationBinaire("/",Valeur(21),Valeur(3)),Valeur(2)),Valeur(3))
 print(exp1.calcule())
+
+matL = MatlExpression({"var1": 5})
+var2 = Variable("var2")
+
+matL.assigner(var2, Valeur(3))
+print(matL.dictionnaire)
