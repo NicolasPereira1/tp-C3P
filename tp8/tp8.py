@@ -1,11 +1,12 @@
 class MatlExpression(object):
-    def __init__(self, val:object):
-        self.val = val
-    def valeur(self):
-        if isinstance(self.val, int):
-            return int(self.val)
-        elif isinstance(self.val, MatlExpression):
-            return self.val.calcule()
+    pass
+
+class Valeur(MatlExpression):
+    def __init__(self, a:float):
+        self.a = a
+    
+    def calcule(self):
+        return self.a
 
 class OperationBinaire(MatlExpression):
     def __init__(self, symbole:str, a:MatlExpression, b:MatlExpression):
@@ -15,19 +16,19 @@ class OperationBinaire(MatlExpression):
 
     def calcule(self):
         if self.symbole == "+":
-            return self.a.valeur() + self.b.valeur()
+            return self.a.calcule() + self.b.calcule()
         elif self.symbole == "-":
-            return self.a.valeur() - self.b.valeur()
+            return self.a.calcule() - self.b.calcule()
         elif self.symbole == "*":
-            return self.a.valeur() * self.b.valeur()
+            return self.a.calcule() * self.b.calcule()
         elif self.symbole == "/":
-            if self.b.valeur() != 0:
-                return self.a.valeur() / self.b.valeur()
+            if self.b.calcule() != 0:
+                return self.a.calcule() / self.b.calcule()
             else:
                 print("Erreur division par 0")
         else:
             print("Erreur oppération inconnue")
 
 
-exp1 = OperationBinaire("+", MatlExpression(5),MatlExpression(3))
+exp1 = OperationBinaire("+", OperationBinaire("-",OperationBinaire("/",Valeur(21),Valeur(3)),Valeur(2)),Valeur(3))
 print(exp1.calcule())
