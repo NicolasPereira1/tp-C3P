@@ -1,9 +1,10 @@
 class MatlExpression(object):
-    def __init__(self, dictionnaire):
-        self.dictionnaire = dictionnaire
-
-    def assigner(self, variable, valeur):
-        self.dictionnaire[variable.nom] = valeur.calcule()
+    def __init__(self):
+        MatlExpression.dictionnaire
+    
+    @staticmethod
+    def assigner(variable, valeur):
+        MatlExpression.dictionnaire[variable.nom] = valeur.calcule()
 
 class Valeur(MatlExpression):
     def __init__(self, a:float):
@@ -17,7 +18,7 @@ class Variable(MatlExpression):
         self.nom = nom
     
     def calcule(self):
-        return self.dictionnaire[self.nom]
+        return MatlExpression.dictionnaire[self.nom]
 
 class OperationBinaire(MatlExpression):
     def __init__(self, symbole:str, a:MatlExpression, b:MatlExpression):
@@ -40,12 +41,27 @@ class OperationBinaire(MatlExpression):
         else:
             print("Erreur oppération inconnue")
 
+def test__Valeur():
+    exp = Valeur(5)
+    
+    assert exp.calcule() == 5
+    
+def test__Variable():
+    MatlExpression.dictionnaire = {"toto": 42}
+    exp = Variable("toto")
+
+    assert exp.calcule() == 42
+
+def test__OperationBinaire():
+    exp1 = OperationBinaire("+", Valeur(5), Valeur(3))
+    exp2 = OperationBinaire("-", Valeur(5), Valeur(3))
+    exp3 = OperationBinaire("*", Valeur(5), Valeur(3))
+    exp4 = OperationBinaire("/", Valeur(2352), Valeur(56))
+
+    assert exp1.calcule() == 8
+    assert exp2.calcule() == 2
+    assert exp3.calcule() == 15
+    assert exp4.calcule() == 42
 
 exp1 = OperationBinaire("+", OperationBinaire("-",OperationBinaire("/",Valeur(21),Valeur(3)),Valeur(2)),Valeur(3))
 print(exp1.calcule())
-
-matL = MatlExpression({"var1": 5})
-var2 = Variable("var2")
-
-matL.assigner(var2, Valeur(3))
-print(matL.dictionnaire)
