@@ -49,6 +49,7 @@ class OperationBinaire(MatlExpression):
                 print("Erreur division par 0")
         else:
             print("Erreur oppération inconnue")
+
 # ------------------------------------------------------------------TESTS------------------------------------------------------------------
 def test__Valeur():
     exp = Valeur(5)
@@ -56,6 +57,12 @@ def test__Valeur():
     assert exp.calcule() == 5
     
 def test__Variable():
+    MatlExpression.dictionnaire = {"carre":carre, "cube":cube, "abs":abs}
+    exp = OperationUnaire("abs", Valeur(-3))
+
+    assert exp.calcule() == 3
+
+def test__OperationUnaire():
     MatlExpression.dictionnaire = {}
     exp = Variable("toto")
     MatlExpression.assigner(exp, Valeur(42))
@@ -72,6 +79,13 @@ def test__OperationBinaire():
     assert exp2.calcule() == 2
     assert exp3.calcule() == 15
     assert exp4.calcule() == 42
+
+def test__Elabore():
+    MatlExpression.dictionnaire = {"carre":carre, "cube":cube, "abs":abs, "x": 5}
+    exp = OperationUnaire("abs",OperationBinaire("*", OperationUnaire("carre",Variable("x")), Valeur(-10)))
+
+    assert exp.calcule() == 250
+
 # -------------------------------------------------------------FONCTIONS UNAIRE-------------------------------------------------------------
 def carre(x):
     return x*x
@@ -83,11 +97,3 @@ def abs(x):
     if x<0:
         return -x
     return x
-
-exp1 = OperationBinaire("+", OperationBinaire("-",OperationBinaire("/",Valeur(21),Valeur(3)),Valeur(2)),Valeur(3))
-print(exp1.calcule())
-
-
-MatlExpression.dictionnaire = {"carre":carre}
-exp2 = OperationUnaire("carre",Valeur(3))
-print(exp2.calcule())
