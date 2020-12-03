@@ -1,3 +1,4 @@
+# ------------------------------------------------------------------CLASSES------------------------------------------------------------------
 class MatlExpression(object):
     def __init__(self):
         MatlExpression.dictionnaire
@@ -20,6 +21,14 @@ class Variable(MatlExpression):
     def calcule(self):
         return MatlExpression.dictionnaire[self.nom]
 
+class OperationUnaire(MatlExpression):
+    def __init__(self, nom:str, a:MatlExpression):
+        self.nom = nom
+        self.a = a
+    
+    def calcule(self):
+        return MatlExpression.dictionnaire[self.nom](self.a.calcule())
+
 class OperationBinaire(MatlExpression):
     def __init__(self, symbole:str, a:MatlExpression, b:MatlExpression):
         self.symbole = symbole
@@ -40,15 +49,16 @@ class OperationBinaire(MatlExpression):
                 print("Erreur division par 0")
         else:
             print("Erreur oppération inconnue")
-
+# ------------------------------------------------------------------TESTS------------------------------------------------------------------
 def test__Valeur():
     exp = Valeur(5)
     
     assert exp.calcule() == 5
     
 def test__Variable():
-    MatlExpression.dictionnaire = {"toto": 42}
+    MatlExpression.dictionnaire = {}
     exp = Variable("toto")
+    MatlExpression.assigner(exp, Valeur(42))
 
     assert exp.calcule() == 42
 
@@ -62,6 +72,22 @@ def test__OperationBinaire():
     assert exp2.calcule() == 2
     assert exp3.calcule() == 15
     assert exp4.calcule() == 42
+# -------------------------------------------------------------FONCTIONS UNAIRE-------------------------------------------------------------
+def carre(x):
+    return x*x
+    
+def cube(x):
+    return x*x*x
+
+def abs(x):
+    if x<0:
+        return -x
+    return x
 
 exp1 = OperationBinaire("+", OperationBinaire("-",OperationBinaire("/",Valeur(21),Valeur(3)),Valeur(2)),Valeur(3))
 print(exp1.calcule())
+
+
+MatlExpression.dictionnaire = {"carre":carre}
+exp2 = OperationUnaire("carre",Valeur(3))
+print(exp2.calcule())
