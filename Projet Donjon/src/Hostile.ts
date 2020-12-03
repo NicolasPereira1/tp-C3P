@@ -11,13 +11,13 @@ class Hostile extends Entitee {
         super(nom,vie);
     }
     
-    combattre(hostile:Hostile):void {
-        this.attaquer(hostile);
-        if(hostile.vie>0)
-            hostile.combattre(this);
+    combattre(entitee:Entitee):void {
+        this.attaquer(entitee);
+        if(entitee instanceof Hostile && entitee.vie>0)
+            entitee.combattre(this);
     }
 
-    attaquer(entitee:Entitee):void{
+    private attaquer(entitee:Entitee):void{
         console.log(this.nom + " attaque : " + entitee.nom);
         entitee.vie = entitee.vie-this.force;
         if(Math.random()<this.critique){

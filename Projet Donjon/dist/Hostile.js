@@ -12,10 +12,10 @@ class Hostile extends Entitee_1.Entitee {
         this.arme = null;
         this.sac = [];
     }
-    combattre(hostile) {
-        this.attaquer(hostile);
-        if (hostile.vie > 0)
-            hostile.combattre(this);
+    combattre(entitee) {
+        this.attaquer(entitee);
+        if (entitee instanceof Hostile && entitee.vie > 0)
+            entitee.combattre(this);
     }
     attaquer(entitee) {
         console.log(this.nom + " attaque : " + entitee.nom);
