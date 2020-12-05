@@ -1,21 +1,21 @@
 import { Arme } from './Arme';
-import {Entite} from './Entite';
-import { Hostile } from './Hostile';
-import {Objet} from './Objet';
 import { Salle } from './Salle';
+import { Objet } from './Objet';
+import { Entite } from './Entite';
+import { Hostile } from './Hostile';
 
 class Joueur extends Hostile {
     public arme:Arme|null = null;
     public or:number = 0;
     public sac:Objet[] = [];
 
-    constructor(public nom:string, public vie:number,  public salleId:number){
-        super(nom, vie, 5, salleId);
+    constructor(public nom:string, public vie:number, public guid:number, public salleId:number){
+        super(nom, vie, 5, guid, salleId);
     }
 
     deplacer(direction:string) {
         let last = this.salleId;
-        Salle.donjon[this.salleId].entites = this.remove(Salle.donjon[this.salleId].entites, this);
+        Salle.donjon[this.salleId].entites = this.remove(Salle.donjon[this.salleId].entites, this.guid);
         switch (direction){
             case "N":
                 this.salleId = Salle.donjon[this.salleId].passagesId[0];
@@ -43,11 +43,12 @@ class Joueur extends Hostile {
             this.salleId = last;
             console.log("Salle inaccéssible depuis la votre.");
         }
-        Salle.donjon[this.salleId].entites.push(this);      
+        Salle.donjon[this.salleId].entites.push(this.guid);      
     }
 
-    observerEntitee(idx:number):Entite {
-        return Salle.donjon[this.salleId].entites[idx];
+    observerEntitee(idx:number):Entite|undefined {
+        if (Salle.donjon[this.salleId].entites.includes(idx))
+            return Entite.entites[idx];
     }
     
     observerObjet(idx:number):Objet {

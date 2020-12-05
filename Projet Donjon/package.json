@@ -2,6 +2,7 @@
     "name": "projet_donjon",
     "version": "0.1.0",
     "scripts": {
+        "UML" : "tplant --input ./src/server.ts --output ./UML/UML.svg",
         "start": "node dist/server.js",
         "build": "tsc -p ."
     },

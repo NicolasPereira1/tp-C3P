@@ -8,26 +8,26 @@ class Hostile extends Entite {
     public arme:Arme|null = null;
     public sac:Objet[] = [];
 
-    constructor(public nom:string, public vie:number, public force:number, public salleId:number){
-        super(nom,vie, salleId);
+    constructor(public nom:string, public vie:number, public force:number, public guid:number, public salleId:number){
+        super(nom,vie, guid, salleId);
     }
     
-    combattre(entitee:Entite):void {
-        this.attaquer(entitee);
-        if(entitee instanceof Hostile && entitee.vie>0)
-            entitee.combattre(this);
+    combattre(attaque:number):void {
+        this.attaquer(attaque);
+        if(Entite.entites[attaque] instanceof Hostile && Entite.entites[attaque].vie>0)
+            (Entite.entites[attaque] as Hostile).combattre(this.guid);
     }
 
-    private attaquer(entitee:Entite):void{
-        console.log(this.nom + " attaque : " + entitee.nom);
-        entitee.vie = entitee.vie-this.force;
+    attaquer(attaque:number):void{
+        console.log(this.nom + " attaque : " + Entite.entites[attaque].nom);
+        Entite.entites[attaque].vie = Entite.entites[attaque].vie-this.force;
         if(Math.random()<this.critique){
             console.log(this.nom + " donne un coup critique !");
-            entitee.vie = entitee.vie-this.force*0.3;
+            Entite.entites[attaque].vie = Entite.entites[attaque].vie-this.force*0.3;
         }
-        if(entitee.vie<=0){
-            Salle.donjon[this.salleId].entites = entitee.remove(Salle.donjon[this.salleId].entites, entitee);
-            console.log(entitee.nom + " a succombé !");
+        if(Entite.entites[attaque].vie<=0){
+            Salle.donjon[this.salleId].entites = this.remove(Salle.donjon[this.salleId].entites, attaque);
+            console.log(Entite.entites[attaque].nom + " a succombé !");
         }
     }
     

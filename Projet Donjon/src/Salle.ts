@@ -3,7 +3,7 @@ import {Objet} from './Objet';
 
 class Salle {
     public static donjon:Salle[] = [];
-    public entites:Entite[] = [];
+    public entites:number[] = [];
     public objets:Objet[] = [];
 
     constructor(public nomSalle:string, public passages:string[], public passagesId:number[], public description:string){}

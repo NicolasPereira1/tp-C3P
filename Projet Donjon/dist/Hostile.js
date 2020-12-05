@@ -1,34 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
-const Entitee_1 = require("./Entitee");
+const Entite_1 = require("./Entite");
 const Salle_1 = require("./Salle");
-class Hostile extends Entitee_1.Entitee {
-    constructor(nom, vie, force, salleId) {
-        super(nom, vie, salleId);
+class Hostile extends Entite_1.Entite {
+    constructor(nom, vie, force, guid, salleId) {
+        super(nom, vie, guid, salleId);
         this.nom = nom;
         this.vie = vie;
         this.force = force;
+        this.guid = guid;
         this.salleId = salleId;
         this.critique = 0.05;
         this.arme = null;
         this.sac = [];
     }
-    combattre(entitee) {
-        this.attaquer(entitee);
-        if (entitee instanceof Hostile && entitee.vie > 0)
-            entitee.combattre(this);
+    combattre(attaque) {
+        this.attaquer(attaque);
+        if (Entite_1.Entite.entites[attaque] instanceof Hostile && Entite_1.Entite.entites[attaque].vie > 0)
+            Entite_1.Entite.entites[attaque].combattre(this.guid);
     }
-    attaquer(entitee) {
-        console.log(this.nom + " attaque : " + entitee.nom);
-        entitee.vie = entitee.vie - this.force;
+    attaquer(attaque) {
+        console.log(this.nom + " attaque : " + Entite_1.Entite.entites[attaque].nom);
+        Entite_1.Entite.entites[attaque].vie = Entite_1.Entite.entites[attaque].vie - this.force;
         if (Math.random() < this.critique) {
             console.log(this.nom + " donne un coup critique !");
-            entitee.vie = entitee.vie - this.force * 0.3;
+            Entite_1.Entite.entites[attaque].vie = Entite_1.Entite.entites[attaque].vie - this.force * 0.3;
         }
-        if (entitee.vie <= 0) {
-            Salle_1.Salle.donjon[this.salleId].listeEntitee = entitee.remove(Salle_1.Salle.donjon[this.salleId].listeEntitee, entitee);
-            console.log(entitee.nom + " a succombé !");
+        if (Entite_1.Entite.entites[attaque].vie <= 0) {
+            Salle_1.Salle.donjon[this.salleId].entites = this.remove(Salle_1.Salle.donjon[this.salleId].entites, attaque);
+            console.log(Entite_1.Entite.entites[attaque].nom + " a succombé !");
         }
     }
     utiliser(idx) {

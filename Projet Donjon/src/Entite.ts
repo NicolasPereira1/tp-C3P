@@ -1,11 +1,12 @@
 abstract class Entite {
-    constructor(public nom:string, public vie:number, public salleId:number){}
+    public static entites:Entite[] = [];
+    constructor(public nom:string, public vie:number, public guid:number, public salleId:number){}
     
-    remove (listeEntitee:Entite[], entitee:Entite):Entite[]{
-        let nouvelleListe:Entite[] = [];
-        for(let i=0; i<listeEntitee.length; i++){
-            if(listeEntitee[i] != entitee)
-                nouvelleListe.push(listeEntitee[i]);
+    remove (entites:number[], idx:number):number[]{
+        let nouvelleListe:number[] = [];
+        for(let i=0; i<entites.length; i++){
+            if(i != idx)
+                nouvelleListe.push(entites[i]);
         }
         return nouvelleListe;
     }

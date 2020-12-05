@@ -1,11 +1,12 @@
 import express from 'express';
-import bodyParser from 'body-parser';  
-import {Joueur} from './Joueur';
+import bodyParser from 'body-parser';
+import { Arme } from './Arme';  
 import { Salle } from './Salle';
-import { PotionDeVie } from './PotionDeVie';
-import { Arme } from './Arme';
-import { PotionDeForce } from './PotionDeForce';
+import { Joueur } from './Joueur';
 import { Hostile } from './Hostile';
+import { PotionDeVie } from './PotionDeVie';
+import { PotionDeForce } from './PotionDeForce';
+import { Entite } from './Entite';
 
 let app = express();
 let joueur:Joueur;
@@ -27,12 +28,12 @@ app.post('/connect', function(req, res) {
     Salle.donjon[1].objets.push(new PotionDeVie("Potion de vie I", 20, 10));
     Salle.donjon[2].objets.push(new PotionDeForce("Potion de force I", 25, 5));
     Salle.donjon[2].objets.push(new Arme("Épée en bois", 10, 5));
-    let rat = new Hostile("Gros rat méchant", 20, 5, 4)
+    Entite.entites[0] = new Hostile("Gros rat méchant", 20, 5, 0, 4);
     // rat.sac.push( new Objet("Grosse dent", 5));
-    Salle.donjon[4].entites.push(rat);
+    Salle.donjon[4].entites.push(0);
 
-    joueur = new Joueur("Link", 50, 0);
-    Salle.donjon[0].entites.push(joueur);
+    Entite.entites[0] = new Joueur("Link", 50, 0, 0);
+    Salle.donjon[0].entites.push(0);
 });
 
 app.get('/salleCourante', function(req, res) {
@@ -71,8 +72,8 @@ app.get('/deEquipe', function(req, res) {
     res.send(joueur);
 });
 
-app.get('/attaque/:uid', function(req, res){
-    joueur.combattre(Salle.donjon[joueur.salleId].entites[+req.params.uid] as Hostile);
+app.get('/:attaquant/tape/:attaque', function(req, res){
+    (Entite.entites[+req.params.attaque] as Hostile).attaquer(+req.params.attaque);
     res.send(Salle.donjon[joueur.salleId]);
 })
 

@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Joueur = void 0;
-const Hostile_1 = require("./Hostile");
 const Salle_1 = require("./Salle");
+const Entite_1 = require("./Entite");
+const Hostile_1 = require("./Hostile");
 class Joueur extends Hostile_1.Hostile {
-    constructor(nom, vie, salleId) {
-        super(nom, vie, 5, salleId);
+    constructor(nom, vie, guid, salleId) {
+        super(nom, vie, 5, guid, salleId);
         this.nom = nom;
         this.vie = vie;
+        this.guid = guid;
         this.salleId = salleId;
         this.arme = null;
         this.or = 0;
@@ -15,7 +17,7 @@ class Joueur extends Hostile_1.Hostile {
     }
     deplacer(direction) {
         let last = this.salleId;
-        Salle_1.Salle.donjon[this.salleId].listeEntitee = this.remove(Salle_1.Salle.donjon[this.salleId].listeEntitee, this);
+        Salle_1.Salle.donjon[this.salleId].entites = this.remove(Salle_1.Salle.donjon[this.salleId].entites, this.guid);
         switch (direction) {
             case "N":
                 this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[0];
@@ -43,16 +45,17 @@ class Joueur extends Hostile_1.Hostile {
             this.salleId = last;
             console.log("Salle inaccéssible depuis la votre.");
         }
-        Salle_1.Salle.donjon[this.salleId].listeEntitee.push(this);
+        Salle_1.Salle.donjon[this.salleId].entites.push(this.guid);
     }
     observerEntitee(idx) {
-        return Salle_1.Salle.donjon[this.salleId].listeEntitee[idx];
+        if (Salle_1.Salle.donjon[this.salleId].entites.includes(idx))
+            return Entite_1.Entite.entites[idx];
     }
     observerObjet(idx) {
-        return Salle_1.Salle.donjon[this.salleId].listeObjet[idx];
+        return Salle_1.Salle.donjon[this.salleId].objets[idx];
     }
     prendre(idx) {
-        let objet = Salle_1.Salle.donjon[this.salleId].listeObjet.splice(idx, idx + 1);
+        let objet = Salle_1.Salle.donjon[this.salleId].objets.splice(idx, idx + 1);
         if (objet != null) {
             this.sac.push(objet[0]);
         }

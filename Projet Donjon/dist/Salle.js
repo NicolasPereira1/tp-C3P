@@ -7,8 +7,8 @@ class Salle {
         this.passages = passages;
         this.passagesId = passagesId;
         this.description = description;
-        this.listeEntitee = [];
-        this.listeObjet = [];
+        this.entites = [];
+        this.objets = [];
     }
 }
 exports.Salle = Salle;
