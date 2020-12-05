@@ -28,12 +28,11 @@ app.post('/connect', function(req, res) {
     Salle.donjon[1].objets.push(new PotionDeVie("Potion de vie I", 20, 10));
     Salle.donjon[2].objets.push(new PotionDeForce("Potion de force I", 25, 5));
     Salle.donjon[2].objets.push(new Arme("Épée en bois", 10, 5));
-    Entite.entites[0] = new Hostile("Gros rat méchant", 20, 5, 0, 4);
-    // rat.sac.push( new Objet("Grosse dent", 5));
-    Salle.donjon[4].entites.push(0);
-
-    Entite.entites[0] = new Joueur("Link", 50, 0, 0);
-    Salle.donjon[0].entites.push(0);
+    
+    Entite.ajouterEntite(new Hostile("Gros rat méchant", 20, 5, 0, 4));
+    joueur = new Joueur("Link", 50, 1, 0)
+    Entite.ajouterEntite(joueur);
+    res.send(Entite.entites[1]);
 });
 
 app.get('/salleCourante', function(req, res) {
@@ -73,7 +72,7 @@ app.get('/deEquipe', function(req, res) {
 });
 
 app.get('/:attaquant/tape/:attaque', function(req, res){
-    (Entite.entites[+req.params.attaque] as Hostile).attaquer(+req.params.attaque);
+    (Entite.entites[+req.params.attaquant] as Hostile).attaquer(+req.params.attaque);
     res.send(Salle.donjon[joueur.salleId]);
 })
 
