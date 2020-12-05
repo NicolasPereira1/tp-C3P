@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entitee = void 0;
 class Entitee {
-    constructor(nom, vie) {
+    constructor(nom, vie, salleId) {
         this.nom = nom;
         this.vie = vie;
+        this.salleId = salleId;
     }
     remove(listeEntitee, entitee) {
         let nouvelleListe = [];

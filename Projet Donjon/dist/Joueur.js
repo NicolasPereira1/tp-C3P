@@ -5,7 +5,7 @@ const Hostile_1 = require("./Hostile");
 const Salle_1 = require("./Salle");
 class Joueur extends Hostile_1.Hostile {
     constructor(nom, vie, salleId) {
-        super(nom, vie, 5);
+        super(nom, vie, 5, salleId);
         this.nom = nom;
         this.vie = vie;
         this.salleId = salleId;
@@ -14,30 +14,35 @@ class Joueur extends Hostile_1.Hostile {
         this.sac = [];
     }
     deplacer(direction) {
+        let last = this.salleId;
         Salle_1.Salle.donjon[this.salleId].listeEntitee = this.remove(Salle_1.Salle.donjon[this.salleId].listeEntitee, this);
-        if (Salle_1.Salle.donjon[direction] != null)
-            switch (direction) {
-                case Salle_1.Salle.donjon[this.salleId].idNord:
-                    this.salleId = direction;
-                    break;
-                case Salle_1.Salle.donjon[this.salleId].idEst:
-                    this.salleId = direction;
-                    break;
-                case Salle_1.Salle.donjon[this.salleId].idSud:
-                    this.salleId = direction;
-                    break;
-                case Salle_1.Salle.donjon[this.salleId].idOuest:
-                    this.salleId = direction;
-                    break;
-                case Salle_1.Salle.donjon[this.salleId].idHaut:
-                    this.salleId = direction;
-                    break;
-                case Salle_1.Salle.donjon[this.salleId].idBas:
-                    this.salleId = direction;
-                    break;
-                default:
-                    console.log("Salle inaccéssible");
-            }
+        switch (direction) {
+            case "N":
+                this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[0];
+                break;
+            case "E":
+                this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[1];
+                break;
+            case "S":
+                this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[2];
+                break;
+            case "O":
+                this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[3];
+                break;
+            case "H":
+                this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[4];
+                break;
+            case "B":
+                this.salleId = Salle_1.Salle.donjon[this.salleId].passagesId[5];
+                break;
+            default:
+                console.log("Direction inconnue.");
+        }
+        // console.log(this.salleId)
+        if (this.salleId == -1) {
+            this.salleId = last;
+            console.log("Salle inaccéssible depuis la votre.");
+        }
         Salle_1.Salle.donjon[this.salleId].listeEntitee.push(this);
     }
     observerEntitee(idx) {

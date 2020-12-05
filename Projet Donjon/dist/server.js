@@ -16,15 +16,17 @@ let joueur;
 app.use(express_1.default.static("public"));
 app.use(body_parser_1.default.json());
 app.get('/', function (req, res) {
-    Salle_1.Salle.donjon[0] = new Salle_1.Salle("Entrée", null, 1, null, 3, 2, 4);
-    Salle_1.Salle.donjon[1] = new Salle_1.Salle("Cuisine", null, null, null, 0, null, null);
-    Salle_1.Salle.donjon[2] = new Salle_1.Salle("Chambre", null, null, null, null, null, 0);
-    Salle_1.Salle.donjon[3] = new Salle_1.Salle("Salle de bain", null, 0, null, null, null, null);
-    Salle_1.Salle.donjon[4] = new Salle_1.Salle("Cave", null, null, null, null, 0, null);
+    Salle_1.Salle.donjon[0] = new Salle_1.Salle("Entrée", ["E", "O", "H", "B"], [-1, 1, -1, 3, 2, 4], "Une entrée de maison assez classique");
+    Salle_1.Salle.donjon[1] = new Salle_1.Salle("Cuisine", ["O"], [-1, -1, -1, 0, -1, -1], "Il semblerait que la vaisselle n'ai pas été faite");
+    Salle_1.Salle.donjon[2] = new Salle_1.Salle("Chambre", ["B"], [-1, -1, -1, -1, -1, 0], "Un lit confortable trône au beau milieu de la pièce");
+    Salle_1.Salle.donjon[3] = new Salle_1.Salle("Salle de bain", ["E"], [-1, 0, -1, -1, -1, -1], "Salle de bain assez rudimentaire mais fonctionnelle");
+    Salle_1.Salle.donjon[4] = new Salle_1.Salle("Cave", ["H"], [-1, -1, -1, -1, 0, -1], "Cave sombre et humide, on aurait bien besion d'une torche pour y voir plus clair...");
     Salle_1.Salle.donjon[1].listeObjet.push(new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10));
     Salle_1.Salle.donjon[2].listeObjet.push(new PotionDeForce_1.PotionDeForce("Potion de force I", 25, 5));
     Salle_1.Salle.donjon[2].listeObjet.push(new Arme_1.Arme("Épée en bois", 10, 5));
-    Salle_1.Salle.donjon[4].listeEntitee.push(new Hostile_1.Hostile("Gros rat méchant", 20, 5));
+    let rat = new Hostile_1.Hostile("Gros rat méchant", 20, 5, 4);
+    // rat.sac.push( new Objet("Grosse dent", 5));
+    Salle_1.Salle.donjon[4].listeEntitee.push(rat);
     joueur = new Joueur_1.Joueur("Link", 50, 0);
     Salle_1.Salle.donjon[0].listeEntitee.push(joueur);
     res.render('index.ejs');
@@ -35,8 +37,8 @@ app.get('/salleCourante', function (req, res) {
 app.get('/joueur', function (req, res) {
     res.send(joueur);
 });
-app.get('/deplacement/:uid', function (req, res) {
-    joueur.deplacer(+req.params.uid);
+app.post('/deplacement', function (req, res) {
+    joueur.deplacer(req.body["direction"]);
     res.send(Salle_1.Salle.donjon[joueur.salleId]);
 });
 app.get('/observerEntitee/:uid', function (req, res) {

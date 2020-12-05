@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
 const Entitee_1 = require("./Entitee");
+const Salle_1 = require("./Salle");
 class Hostile extends Entitee_1.Entitee {
-    constructor(nom, vie, force) {
-        super(nom, vie);
+    constructor(nom, vie, force, salleId) {
+        super(nom, vie, salleId);
         this.nom = nom;
         this.vie = vie;
         this.force = force;
+        this.salleId = salleId;
         this.critique = 0.05;
         this.arme = null;
         this.sac = [];
@@ -24,8 +26,10 @@ class Hostile extends Entitee_1.Entitee {
             console.log(this.nom + " donne un coup critique !");
             entitee.vie = entitee.vie - this.force * 0.3;
         }
-        if (entitee.vie <= 0)
+        if (entitee.vie <= 0) {
+            Salle_1.Salle.donjon[this.salleId].listeEntitee = entitee.remove(Salle_1.Salle.donjon[this.salleId].listeEntitee, entitee);
             console.log(entitee.nom + " a succombé !");
+        }
     }
     utiliser(idx) {
         let objet = this.sac.splice(idx, idx + 1);

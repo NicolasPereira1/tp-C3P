@@ -14,20 +14,25 @@ app.use( express.static( "public" ) );
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-    Salle.donjon[0] = new Salle("Entrée",null,1,null,3,2,4);
-    Salle.donjon[1] = new Salle("Cuisine",null,null,null,0,null,null);
-    Salle.donjon[2] = new Salle("Chambre",null,null,null,null,null,0);
-    Salle.donjon[3] = new Salle("Salle de bain",null,0,null,null,null,null);
-    Salle.donjon[4] = new Salle("Cave",null,null,null,null,0,null);
+    res.render('index.ejs');
+});
 
-    Salle.donjon[1].listeObjet.push(new PotionDeVie("Potion de vie I", 20, 10));
-    Salle.donjon[2].listeObjet.push(new PotionDeForce("Potion de force I", 25, 5));
-    Salle.donjon[2].listeObjet.push(new Arme("Épée en bois", 10, 5));
-    Salle.donjon[4].listeEntitee.push(new Hostile("Gros rat méchant", 20, 5));
+app.post('/connect', function(req, res) {
+    Salle.donjon[0] = new Salle("Entrée",["E","O","H","B"],[-1,1,-1,3,2,4],"Une entrée de maison assez classique");
+    Salle.donjon[1] = new Salle("Cuisine",["O"],[-1,-1,-1,0,-1,-1], "Il semblerait que la vaisselle n'ai pas été faite");
+    Salle.donjon[2] = new Salle("Chambre",["B"],[-1,-1,-1,-1,-1,0], "Un lit confortable trône au beau milieu de la pièce");
+    Salle.donjon[3] = new Salle("Salle de bain",["E"],[-1,0,-1,-1,-1,-1], "Salle de bain assez rudimentaire mais fonctionnelle");
+    Salle.donjon[4] = new Salle("Cave",["H"],[-1,-1,-1,-1,0,-1], "Cave sombre et humide, on aurait bien besion d'une torche pour y voir plus clair...");
+
+    Salle.donjon[1].objets.push(new PotionDeVie("Potion de vie I", 20, 10));
+    Salle.donjon[2].objets.push(new PotionDeForce("Potion de force I", 25, 5));
+    Salle.donjon[2].objets.push(new Arme("Épée en bois", 10, 5));
+    let rat = new Hostile("Gros rat méchant", 20, 5, 4)
+    // rat.sac.push( new Objet("Grosse dent", 5));
+    Salle.donjon[4].entites.push(rat);
 
     joueur = new Joueur("Link", 50, 0);
-    Salle.donjon[0].listeEntitee.push(joueur);
-    res.render('index.ejs');
+    Salle.donjon[0].entites.push(joueur);
 });
 
 app.get('/salleCourante', function(req, res) {
@@ -38,8 +43,8 @@ app.get('/joueur', function(req, res) {
     res.send(joueur);
 });
 
-app.get('/deplacement/:uid', function(req, res) {
-    joueur.deplacer(+req.params.uid);
+app.post('/deplacement', function(req, res) {
+    joueur.deplacer(req.body["direction"]);
     res.send(Salle.donjon[joueur.salleId]);
 });
 
@@ -67,7 +72,7 @@ app.get('/deEquipe', function(req, res) {
 });
 
 app.get('/attaque/:uid', function(req, res){
-    joueur.combattre(Salle.donjon[joueur.salleId].listeEntitee[+req.params.uid] as Hostile);
+    joueur.combattre(Salle.donjon[joueur.salleId].entites[+req.params.uid] as Hostile);
     res.send(Salle.donjon[joueur.salleId]);
 })
 
