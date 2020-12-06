@@ -2,34 +2,36 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
 const Entite_1 = require("./Entite");
-const Salle_1 = require("./Salle");
 class Hostile extends Entite_1.Entite {
-    constructor(nom, vie, force, guid, salleId) {
-        super(nom, vie, guid, salleId);
+    constructor(nom, totalVie, force, guid, salle) {
+        super(nom, totalVie, guid, salle);
         this.nom = nom;
-        this.vie = vie;
+        this.totalVie = totalVie;
         this.force = force;
         this.guid = guid;
-        this.salleId = salleId;
+        this.salle = salle;
         this.critique = 0.05;
         this.arme = null;
         this.sac = [];
     }
     combattre(attaque) {
         this.attaquer(attaque);
-        if (Entite_1.Entite.entites[attaque] instanceof Hostile && Entite_1.Entite.entites[attaque].vie > 0)
+        if (Entite_1.Entite.entites[attaque] instanceof Hostile && Entite_1.Entite.entites[attaque].totalVie > 0)
             Entite_1.Entite.entites[attaque].combattre(this.guid);
     }
     attaquer(attaque) {
-        console.log(this.nom + " attaque : " + Entite_1.Entite.entites[attaque].nom);
-        Entite_1.Entite.entites[attaque].vie = Entite_1.Entite.entites[attaque].vie - this.force;
-        if (Math.random() < this.critique) {
-            console.log(this.nom + " donne un coup critique !");
-            Entite_1.Entite.entites[attaque].vie = Entite_1.Entite.entites[attaque].vie - this.force * 0.3;
-        }
-        if (Entite_1.Entite.entites[attaque].vie <= 0) {
-            Salle_1.Salle.donjon[this.salleId].entites = this.remove(Salle_1.Salle.donjon[this.salleId].entites, attaque);
-            console.log(Entite_1.Entite.entites[attaque].nom + " a succombé !");
+        let cible = Entite_1.Entite.entites[attaque];
+        if (cible.salle == this.salle) {
+            console.log(this.nom + " attaque : " + cible.nom);
+            cible.totalVie = cible.totalVie - this.force;
+            if (Math.random() < this.critique) {
+                console.log(this.nom + " donne un coup critique !");
+                cible.totalVie = cible.totalVie - this.force * 0.3;
+            }
+            if (cible.totalVie <= 0) {
+                this.salle.entites = this.remove(this.salle.entites, attaque);
+                console.log(cible.nom + " a succombé !");
+            }
         }
     }
     utiliser(idx) {

@@ -28,26 +28,26 @@ app.post('/connect', function(req, res) {
     Salle.donjon[2].objets.push(new PotionDeForce("Potion de force I", 25, 5));
     Salle.donjon[2].objets.push(new Arme("Épée en bois", 10, 5));
     
-    Entite.ajouterEntite( new Hostile("Gros rat méchant", 20, 5, 0, 4));
-    Entite.ajouterEntite( new Joueur("Link", 50, 1, 0));
+    Entite.ajouterEntite( new Hostile("Gros rat méchant", 20, 5, 0, Salle.donjon[4]));
+    Entite.ajouterEntite( new Joueur("Link", 50, 1, Salle.donjon[0]));
 
     res.send(Entite.entites[1]);
 });
 
 app.get('/:uid/regarder', function(req, res) {
-    res.send(Salle.donjon[Entite.entites[+req.params.uid].salleId]);
+    res.send(Entite.entites[+req.params.uid].salle);
 });
 
 app.post('/:uid/deplacement', function(req, res) {
     let j = Entite.entites[+req.params.uid] as Joueur;
     j.deplacer(req.body["direction"]);
-    res.send(Salle.donjon[j.salleId]);
+    res.send(j.salle);
 });
 
 app.get('/:attaquant/tape/:attaque', function(req, res){
     let h = (Entite.entites[+req.params.attaquant] as Hostile);
     h.attaquer(+req.params.attaque);
-    res.send(Salle.donjon[h.salleId]);
+    res.send(h.salle);
 });
 
 app.get('/:uid/observerEntitee/:entite', function(req, res) {

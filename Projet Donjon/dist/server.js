@@ -27,22 +27,22 @@ app.post('/connect', function (req, res) {
     Salle_1.Salle.donjon[1].objets.push(new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10));
     Salle_1.Salle.donjon[2].objets.push(new PotionDeForce_1.PotionDeForce("Potion de force I", 25, 5));
     Salle_1.Salle.donjon[2].objets.push(new Arme_1.Arme("Épée en bois", 10, 5));
-    Entite_1.Entite.ajouterEntite(new Hostile_1.Hostile("Gros rat méchant", 20, 5, 0, 4));
-    Entite_1.Entite.ajouterEntite(new Joueur_1.Joueur("Link", 50, 1, 0));
+    Entite_1.Entite.ajouterEntite(new Hostile_1.Hostile("Gros rat méchant", 20, 5, 0, Salle_1.Salle.donjon[4]));
+    Entite_1.Entite.ajouterEntite(new Joueur_1.Joueur("Link", 50, 1, Salle_1.Salle.donjon[0]));
     res.send(Entite_1.Entite.entites[1]);
 });
 app.get('/:uid/regarder', function (req, res) {
-    res.send(Salle_1.Salle.donjon[Entite_1.Entite.entites[+req.params.uid].salleId]);
+    res.send(Entite_1.Entite.entites[+req.params.uid].salle);
 });
 app.post('/:uid/deplacement', function (req, res) {
     let j = Entite_1.Entite.entites[+req.params.uid];
     j.deplacer(req.body["direction"]);
-    res.send(Salle_1.Salle.donjon[j.salleId]);
+    res.send(j.salle);
 });
 app.get('/:attaquant/tape/:attaque', function (req, res) {
     let h = Entite_1.Entite.entites[+req.params.attaquant];
     h.attaquer(+req.params.attaque);
-    res.send(Salle_1.Salle.donjon[h.salleId]);
+    res.send(h.salle);
 });
 app.get('/:uid/observerEntitee/:entite', function (req, res) {
     let j = Entite_1.Entite.entites[+req.params.uid];

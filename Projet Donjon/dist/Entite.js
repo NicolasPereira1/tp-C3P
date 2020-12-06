@@ -1,22 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entite = void 0;
-const Salle_1 = require("./Salle");
 class Entite {
-    constructor(nom, vie, guid, salleId) {
+    constructor(nom, totalVie, guid, salle) {
         this.nom = nom;
-        this.vie = vie;
+        this.totalVie = totalVie;
         this.guid = guid;
-        this.salleId = salleId;
+        this.salle = salle;
     }
     static ajouterEntite(entite) {
         this.entites.push(entite);
-        Salle_1.Salle.donjon[entite.salleId].entites.push(entite.guid);
+        entite.salle.entites.push(entite.guid);
     }
-    remove(entites, idx) {
+    remove(entites, id) {
         let nouvelleListe = [];
         for (let i = 0; i < entites.length; i++) {
-            if (i != idx)
+            if (entites[i] != id)
                 nouvelleListe.push(entites[i]);
         }
         return nouvelleListe;

@@ -10,7 +10,7 @@ class PotionDeVie extends Objet_1.Objet {
         this.effect = effect;
     }
     utilise(joueur) {
-        joueur.vie = joueur.vie + this.effect;
+        joueur.totalVie = joueur.totalVie + this.effect;
     }
 }
 exports.PotionDeVie = PotionDeVie;

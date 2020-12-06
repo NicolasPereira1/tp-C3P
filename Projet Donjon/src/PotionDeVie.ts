@@ -7,7 +7,7 @@ class PotionDeVie extends Objet {
         super(nom, prix);
     }
     public utilise (joueur:Joueur):void {
-        joueur.vie = joueur.vie + this.effect;
+        joueur.totalVie = joueur.totalVie + this.effect;
     }
 
 }
