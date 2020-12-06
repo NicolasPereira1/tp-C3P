@@ -41,8 +41,10 @@ app.post('/:uid/deplacement', function (req, res) {
 });
 app.get('/:attaquant/tape/:attaque', function (req, res) {
     let h = Entite_1.Entite.entites[+req.params.attaquant];
+    let c = Entite_1.Entite.entites[+req.params.attaque];
     h.attaquer(+req.params.attaque);
-    res.send(h.salle);
+    res.send({ "attaquant": { "guid": h.guid, "degat": h.force, "vie": h.totalVie },
+        "attaque": { "guid": c.guid, "degat": c.force, "vie": c.totalVie } });
 });
 app.get('/:uid/observerEntitee/:entite', function (req, res) {
     let j = Entite_1.Entite.entites[+req.params.uid];

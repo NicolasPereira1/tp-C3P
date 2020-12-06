@@ -1,13 +1,10 @@
-import { Arme } from './Arme';
 import { Salle } from './Salle';
 import { Objet } from './Objet';
 import { Entite } from './Entite';
 import { Hostile } from './Hostile';
 
 class Joueur extends Hostile {
-    public arme:Arme|null = null;
     public or:number = 0;
-    public sac:Objet[] = [];
 
     constructor(public nom:string, public totalVie:number, public guid:number, public salle:Salle){
         super(nom, totalVie, 5, guid, salle);

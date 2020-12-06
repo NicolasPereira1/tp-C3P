@@ -11,9 +11,7 @@ class Joueur extends Hostile_1.Hostile {
         this.totalVie = totalVie;
         this.guid = guid;
         this.salle = salle;
-        this.arme = null;
         this.or = 0;
-        this.sac = [];
     }
     deplacer(direction) {
         let last = this.salle;
