@@ -19,16 +19,18 @@ class Hostile extends Entite {
     }
 
     attaquer(attaque:number):void{
-        console.log(this.nom + " attaque : " + Entite.entites[attaque].nom);
-        Entite.entites[attaque].vie = Entite.entites[attaque].vie-this.force;
-        if(Math.random()<this.critique){
-            console.log(this.nom + " donne un coup critique !");
-            Entite.entites[attaque].vie = Entite.entites[attaque].vie-this.force*0.3;
-        }
-        if(Entite.entites[attaque].vie<=0){
-            Salle.donjon[this.salleId].entites = this.remove(Salle.donjon[this.salleId].entites, attaque);
-            console.log(Entite.entites[attaque].nom + " a succombé !");
-        }
+        let cible = Entite.entites[attaque];
+        if (cible.salleId = this.salleId)
+            console.log(this.nom + " attaque : " + cible.nom);
+            cible.vie = cible.vie-this.force;
+            if(Math.random()<this.critique){
+                console.log(this.nom + " donne un coup critique !");
+                cible.vie = cible.vie-this.force*0.3;
+            }
+            if(cible.vie<=0){
+                Salle.donjon[this.salleId].entites = this.remove(Salle.donjon[this.salleId].entites, attaque);
+                console.log(cible.nom + " a succombé !");
+            }
     }
     
     utiliser(idx:number):void {

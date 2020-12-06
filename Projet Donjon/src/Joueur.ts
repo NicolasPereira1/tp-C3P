@@ -38,7 +38,6 @@ class Joueur extends Hostile {
             default:
                 console.log("Direction inconnue.");
         }
-        // console.log(this.salleId)
         if(this.salleId == -1){
             this.salleId = last;
             console.log("Salle inaccéssible depuis la votre.");
@@ -46,13 +45,14 @@ class Joueur extends Hostile {
         Salle.donjon[this.salleId].entites.push(this.guid);      
     }
 
-    observerEntitee(idx:number):Entite|undefined {
+    observerEntite(idx:number):Entite|undefined {
         if (Salle.donjon[this.salleId].entites.includes(idx))
             return Entite.entites[idx];
     }
     
-    observerObjet(idx:number):Objet {
-        return Salle.donjon[this.salleId].objets[idx];
+    observerObjet(idx:number):Objet|undefined {
+        if (Salle.donjon[this.salleId].objets.length>idx)
+            return Salle.donjon[this.salleId].objets[idx];
     }
 
     prendre(idx:number):void {

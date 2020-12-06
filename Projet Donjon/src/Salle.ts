@@ -1,4 +1,3 @@
-import {Entite} from './Entite';
 import {Objet} from './Objet';
 
 class Salle {
