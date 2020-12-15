@@ -8,6 +8,7 @@ class Joueur extends Hostile {
 
     constructor(public nom:string, public totalVie:number, public guid:number, public salle:Salle){
         super(nom, totalVie, 5, guid, salle);
+        salle.entites.push(guid);
     }
 
     deplacer(direction:string) {

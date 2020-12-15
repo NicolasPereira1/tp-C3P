@@ -12,6 +12,7 @@ class Joueur extends Hostile_1.Hostile {
         this.guid = guid;
         this.salle = salle;
         this.or = 0;
+        salle.entites.push(guid);
     }
     deplacer(direction) {
         let last = this.salle;
