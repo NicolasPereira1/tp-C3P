@@ -147,6 +147,6 @@ evaluate_matl (OperationBinaire2("+", Variable2 "a", Variable2 "b")) listeDeFonc
 
 (* Exercice 5 *)
 
-(* Q1  Je pense que cette fonctionnalité à déjà été implémenté lors de la question 3 de l'exercice 2*)
+(* Q1  Je pense que cette fonctionnalité à déjà été implémenté lors de ma question 3 de l'exercice 2*)
 
 

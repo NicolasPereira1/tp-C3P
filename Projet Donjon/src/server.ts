@@ -9,6 +9,8 @@ import { PotionDeVie } from './PotionDeVie';
 import { PotionDeForce } from './PotionDeForce';
 
 let app = express();
+let donjon;
+let listUser; //Hashmap
 
 app.use( express.static( "public" ) );
 app.use(bodyParser.json());
@@ -18,6 +20,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/connect', function(req, res) {
+    Salle.donjon[-2] = new Salle("Cimetière" , [], [], "Personne ne sort jamais d'ici... :(");
     Salle.donjon[0] = new Salle("Entrée",["E","O","H","B"],[-1,1,-1,3,2,4],"Une entrée de maison assez classique.");
     Salle.donjon[1] = new Salle("Cuisine",["O"],[-1,-1,-1,0,-1,-1], "Il semblerait que la vaisselle n'ai pas été faite depuis un moment...");
     Salle.donjon[2] = new Salle("Chambre",["B"],[-1,-1,-1,-1,-1,0], "Un lit confortable trône au beau milieu de la pièce. Il semble vous appeller à venir faire un petit somme.");
@@ -29,7 +32,7 @@ app.post('/connect', function(req, res) {
     Salle.donjon[2].objets.push(new Arme("Épée en bois", 10, 5));
     
     Entite.ajouterEntite( new Hostile("Gros rat méchant", 20, 5, 0, Salle.donjon[4]));
-    Entite.ajouterEntite( new Joueur("Link", 50, 1, Salle.donjon[0]));
+    Entite.ajouterEntite( new Joueur("Joueur 1", 50, 1, Salle.donjon[0]));
 
     res.send(Entite.entites[1]);
 });
@@ -44,7 +47,7 @@ app.post('/:uid/deplacement', function(req, res) {
     res.send(j.salle);
 });
 
-app.get('/:attaquant/tape/:attaque', function(req, res){
+app.post('/:attaquant/taper/:attaque', function(req, res){
     let h = Entite.entites[+req.params.attaquant] as Hostile;
     let c = Entite.entites[+req.params.attaque] as Hostile;
     h.attaquer(+req.params.attaque);
@@ -52,7 +55,7 @@ app.get('/:attaquant/tape/:attaque', function(req, res){
                 "attaque":  {"guid":c.guid, "degat":c.force, "vie":c.totalVie}});
 });
 
-app.get('/:uid/observerEntitee/:entite', function(req, res) {
+app.get('/:uid/examiner/:entite', function(req, res) {
     let j = Entite.entites[+req.params.uid] as Joueur;
     res.send(j.observerEntite(+req.params.entite));
 });
@@ -79,4 +82,5 @@ app.get('/:uid/deEquipe', function(req, res) {
     j.deEquiper();
     res.send(j);
 });
+
 app.listen(8080);
