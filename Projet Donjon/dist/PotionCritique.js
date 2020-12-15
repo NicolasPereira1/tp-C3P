@@ -10,7 +10,7 @@ class PotionCritique extends Objet_1.Objet {
         this.effect = effect;
     }
     utilise(joueur) {
-        joueur.force = joueur.force + this.effect;
+        joueur.critique = joueur.critique + this.effect;
     }
 }
 exports.PotionCritique = PotionCritique;

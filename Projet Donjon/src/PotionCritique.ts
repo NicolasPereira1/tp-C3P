@@ -8,7 +8,7 @@ class PotionCritique extends Objet {
     }
 
     public utilise (joueur:Joueur):void {
-        joueur.force = joueur.force + this.effect;
+        joueur.critique = joueur.critique + this.effect;
     }
 }
 export {PotionCritique};

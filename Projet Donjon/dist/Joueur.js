@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Joueur = void 0;
-const Salle_1 = require("./Salle");
 const Entite_1 = require("./Entite");
 const Hostile_1 = require("./Hostile");
 class Joueur extends Hostile_1.Hostile {
@@ -15,33 +14,35 @@ class Joueur extends Hostile_1.Hostile {
         salle.entites.push(guid);
     }
     deplacer(direction) {
-        let last = this.salle;
+        let next;
         this.salle.entites = this.remove(this.salle.entites, this.guid);
         switch (direction) {
             case "N":
-                this.salle = Salle_1.Salle.donjon[this.salle.passagesId[0]];
+                next = this.salle.passages.get(direction);
                 break;
             case "E":
-                this.salle = Salle_1.Salle.donjon[this.salle.passagesId[1]];
+                next = this.salle.passages.get(direction);
                 break;
             case "S":
-                this.salle = Salle_1.Salle.donjon[this.salle.passagesId[2]];
+                next = this.salle.passages.get(direction);
                 break;
             case "O":
-                this.salle = Salle_1.Salle.donjon[this.salle.passagesId[3]];
+                next = this.salle.passages.get(direction);
                 break;
             case "H":
-                this.salle = Salle_1.Salle.donjon[this.salle.passagesId[4]];
+                next = this.salle.passages.get(direction);
                 break;
             case "B":
-                this.salle = Salle_1.Salle.donjon[this.salle.passagesId[5]];
+                next = this.salle.passages.get(direction);
                 break;
             default:
                 console.log("Direction inconnue.");
         }
-        if (this.salle == undefined) {
-            this.salle = last;
+        if (next == undefined) {
             console.log("Salle inaccéssible depuis la votre.");
+        }
+        else {
+            this.salle = next;
         }
         this.salle.entites.push(this.guid);
     }

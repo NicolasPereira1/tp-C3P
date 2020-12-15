@@ -31,7 +31,7 @@ class Hostile extends Entite_1.Entite {
             }
             if (cible.totalVie <= 0) {
                 this.salle.entites = this.remove(this.salle.entites, attaque);
-                cible.salle = Salle_1.Salle.donjon[-2]; //Peut être créer une salle cimtière.
+                cible.salle = Salle_1.Salle.donjon[-2];
                 console.log(cible.nom + " a succombé !");
             }
             else if (cible instanceof Hostile) {
