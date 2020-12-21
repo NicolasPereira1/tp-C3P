@@ -1,5 +1,5 @@
 import { Arme } from './Arme';
-import {Objet} from './Objet';
+import { Objet } from './Objet';
 import { Entite } from './Entite';
 import { Hostile } from './Hostile';
 import { PotionDeForce } from './PotionDeForce';
@@ -13,40 +13,41 @@ class Salle {
 
     constructor(public nomSalle:string, public passages:Map<String,Salle>, public description:string){}
 
-    public static inisialiserDonjon():Salle[]{
+    public static inisialiserDonjon():void{
         Salle.donjon[-2] = new Salle("Cimetière" , new Map<String,Salle>(), "Personne ne sort jamais d'ici... :(");
 
-        let entree = new Salle("Entrée",new Map<String,Salle>(),"Une entrée de maison assez classique.");
-        entree.passages.set("E", this.donjon[1]);
-        entree.passages.set("O", this.donjon[3]);
-        entree.passages.set("H", this.donjon[2]);
-        entree.passages.set("B", this.donjon[4]);
-        this.donjon[0] = entree;
+        
+        Salle.donjon[0] = new Salle("Entrée",new Map<String,Salle>(),"Une entrée de maison assez classique.");        
+        Salle.donjon[1] = new Salle("Cuisine", new Map<String,Salle>(), "Il semblerait que la vaisselle n'ai pas été faite depuis un moment...");
+        Salle.donjon[2] = new Salle("Chambre", new Map<String,Salle>(), "Un lit confortable trône au beau milieu de la pièce. Il semble vous appeller à venir faire un petit somme.");
+        Salle.donjon[3] = new Salle("Salle de bain", new Map<String,Salle>(), "Salle de bain assez rudimentaire mais fonctionnelle.");
+        Salle.donjon[4] = new Salle("Cave", new Map<String,Salle>(), "Cave sombre et humide, on aurait bien besion d'une torche pour y voir plus clair...");
+        
+        Salle.donjon[0].passages.set("E", this.donjon[1]);
+        Salle.donjon[0].passages.set("O", this.donjon[3]);
+        Salle.donjon[0].passages.set("H", this.donjon[2]);
+        Salle.donjon[0].passages.set("B", this.donjon[4]);
 
-        let cuisine = new Salle("Cuisine", new Map<String,Salle>(), "Il semblerait que la vaisselle n'ai pas été faite depuis un moment...");
-        cuisine.passages.set("O", this.donjon[0]);
-        Salle.donjon[1] = cuisine;
+        
+        Salle.donjon[1].passages.set("O", this.donjon[0]);
+        
+        Salle.donjon[2].passages.set("B", this.donjon[0]);
+        
+        Salle.donjon[3].passages.set("E", this.donjon[0]);
+        
+        Salle.donjon[4].passages.set("H", this.donjon[0]);
 
-        let chambre = new Salle("Chambre", new Map<String,Salle>(), "Un lit confortable trône au beau milieu de la pièce. Il semble vous appeller à venir faire un petit somme.");
-        chambre.passages.set("B", this.donjon[0]);
-        Salle.donjon[2] = chambre;
+        Salle.donjon[1].objets.push(new PotionDeVie("Potion de vie I", 20, 10));
+        Salle.donjon[2].objets.push(new PotionDeForce("Potion de force I", 25, 5));
+        Salle.donjon[2].objets.push(new Arme("Épée en bois", 10, 5));
+        Salle.donjon[3].objets.push(new PotionCritique("Potion coup crique I", 50, 0.05))
 
-        let bain = new Salle("Salle de bain", new Map<String,Salle>(), "Salle de bain assez rudimentaire mais fonctionnelle.");
-        bain.passages.set("E", this.donjon[0]);
-        Salle.donjon[3] = bain;
+        Entite.ajouterEntite( new Hostile("Gros rat méchant", 20, 5, 0, Salle.donjon[4]));
+    }
 
-        let cave = new Salle("Cave", new Map<String,Salle>(), "Cave sombre et humide, on aurait bien besion d'une torche pour y voir plus clair...");
-        cave.passages.set("H", this.donjon[0]);
-        Salle.donjon[4] = cave;
-
-        cuisine.objets.push(new PotionDeVie("Potion de vie I", 20, 10));
-        chambre.objets.push(new PotionDeForce("Potion de force I", 25, 5));
-        chambre.objets.push(new Arme("Épée en bois", 10, 5));
-        bain.objets.push(new PotionCritique("Potion coup crique I", 50, 0.05))
-
-        Entite.ajouterEntite( new Hostile("Gros rat méchant", 20, 5, 0, cave));
-
-        return Salle.donjon;
+    public vue():object{
+        
+        return {"nom":this.nomSalle,"description":this.description, "passages":this.passages.keys(), "entites":this.entites, "objets":this.objets};
     }
 }
 export {Salle};

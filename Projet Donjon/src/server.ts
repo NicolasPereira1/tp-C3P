@@ -6,19 +6,20 @@ import { Hostile } from './Hostile';
 import { Salle } from './Salle';
 
 let app = express();
-let donjon = Salle.inisialiserDonjon();
 let idJoueur = 1;
 let listeUtilisateur = new Map<number,Joueur>();
 
 app.use( express.static( "public" ) );
 app.use(bodyParser.json());
 
+Salle.inisialiserDonjon();
+
 app.get('/', function(req, res) {
     res.render('index.ejs');
 });
 
 app.post('/connect', function(req, res) {
-    let joueur = new Joueur("Joueur "+idJoueur, 50, idJoueur, donjon[0]);
+    let joueur = new Joueur("Joueur "+idJoueur, 50, idJoueur, Salle.donjon[0]);
     listeUtilisateur.set(idJoueur,joueur);
     idJoueur++;
     res.send(listeUtilisateur.get(idJoueur-1));
@@ -27,7 +28,7 @@ app.post('/connect', function(req, res) {
 app.get('/:uid/regarder', function(req, res) {
     let joueur = listeUtilisateur.get(+req.params.uid);
     if(joueur !=undefined)
-        res.send(joueur.salle);
+        res.send(joueur.salle.vue());
 });
 
 app.post('/:uid/deplacement', function(req, res) {

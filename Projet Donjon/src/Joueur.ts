@@ -12,7 +12,7 @@ class Joueur extends Hostile {
     }
 
     deplacer(direction:string) {
-        let next;
+        let next = undefined;
         this.salle.entites = this.remove(this.salle.entites, this.guid);
         switch (direction){
             case "N":
@@ -33,8 +33,6 @@ class Joueur extends Hostile {
             case "B":
                 next = this.salle.passages.get(direction);
             break;
-            default:
-                console.log("Direction inconnue.");
         }
         if(next == undefined){
             console.log("Salle inaccéssible depuis la votre.");
