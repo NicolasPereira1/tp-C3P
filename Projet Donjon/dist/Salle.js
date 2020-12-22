@@ -32,7 +32,7 @@ class Salle {
         Salle.donjon[4].passages.set("H", this.donjon[0]);
         Salle.donjon[1].objets.push(new PotionDeVie_1.PotionDeVie("Potion de vie I", 20, 10, "Potion qui permet de récuperer quelque points de vie."));
         Salle.donjon[2].objets.push(new PotionDeForce_1.PotionDeForce("Potion de force I", 25, 5, "Potion qui permet d'augementer vos points d'attaque."));
-        Salle.donjon[2].objets.push(new Arme_1.Arme("Épée en bois", 10, 5, "Cette petite épée de bois n'est pas très solide mais c'est toujours mieux que rien."));
+        Salle.donjon[2].objets.push(new Arme_1.Arme("Épée en bois", 10, 5, "Cette petite épée en bois n'est pas très tranchante mais c'est toujours mieux que rien."));
         Salle.donjon[3].objets.push(new PotionCritique_1.PotionCritique("Potion coup crique I", 50, 0.05, "Potion qui permet d'augementer vos chance de réaliser un coup crique."));
         Entite_1.Entite.ajouterEntite(new Hostile_1.Hostile("Gros rat méchant", 20, 5, 0, Salle.donjon[4]));
     }

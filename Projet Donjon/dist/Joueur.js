@@ -64,7 +64,8 @@ class Joueur extends Hostile_1.Hostile {
         }
     }
     vue() {
-        return { "nom": this.nom, "guid": this.guid, "totalvie": this.totalVie, "arme": this.arme, "salle": this.salle.vue() };
+        return Object.assign(super.vue(), { "or": this.or, "salle": this.salle });
+        ;
     }
 }
 exports.Joueur = Joueur;

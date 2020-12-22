@@ -54,7 +54,7 @@ class Hostile extends Entite_1.Entite {
             this.arme.deEquipe(this);
     }
     vue() {
-        return { "nom": this.nom, "guid": this.guid, "totalvie": this.totalVie, "arme": this.arme, "salle": this.salle.vue() };
+        return { "nom": this.nom, "guid": this.guid, "totalvie": this.totalVie, "arme": this.arme, "force": this.force, "critique": this.critique, "sac": this.sac };
     }
 }
 exports.Hostile = Hostile;

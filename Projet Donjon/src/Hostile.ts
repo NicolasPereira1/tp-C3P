@@ -57,7 +57,7 @@ class Hostile extends Entite {
     }
 
     vue():object{
-        return {"nom":this.nom,"guid":this.guid, "totalvie":this.totalVie, "arme":this.arme, "salle":this.salle.vue()};
+        return {"nom":this.nom,"guid":this.guid, "totalvie":this.totalVie, "arme":this.arme, "force":this.force, "critique":this.critique, "sac":this.sac};
     }
 }
 export {Hostile};

@@ -36,9 +36,9 @@ app.post('/:uid/deplacement', function (req, res) {
     }
 });
 app.post('/:attaquant/taper/:attaque', function (req, res) {
-    let h = listeUtilisateur.get(+req.params.attaquant);
-    if (h != undefined) {
-        res.send(h.attaquer(+req.params.attaque));
+    let j = listeUtilisateur.get(+req.params.attaquant);
+    if (j != undefined) {
+        res.send(j.attaquer(+req.params.attaque));
     }
 });
 app.get('/:uid/examiner/:entite', function (req, res) {
@@ -46,30 +46,30 @@ app.get('/:uid/examiner/:entite', function (req, res) {
     if (j != undefined)
         res.send(j.observerEntite(+req.params.entite));
 });
-app.get('/observerObjet/:uid', function (req, res) {
+app.get('/:uid/observerObjet/:objet', function (req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
     if (j != undefined)
-        res.send(j.observerObjet(+req.params.uid));
+        res.send(j.observerObjet(+req.params.objet));
 });
 app.get('/:uid/prendre/:obj', function (req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
     if (j != undefined) {
         j.prendre(+req.params.obj);
-        res.send(j);
+        res.send(j.vue());
     }
 });
 app.get('/:uid/utiliser/:obj', function (req, res) {
-    let h = listeUtilisateur.get(+req.params.uid);
-    if (h != undefined) {
-        h.utiliser(+req.params.obj);
-        res.send(h);
+    let j = listeUtilisateur.get(+req.params.uid);
+    if (j != undefined) {
+        j.utiliser(+req.params.obj);
+        res.send(j.vue());
     }
 });
 app.get('/:uid/deEquipe', function (req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
     if (j != undefined) {
         j.deEquiper();
-        res.send(j);
+        res.send(j.vue());
     }
 });
 app.listen(8080);
