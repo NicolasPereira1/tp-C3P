@@ -18,8 +18,9 @@ class Hostile extends Entite {
             (Entite.entites[attaque] as Hostile).combattre(this.guid);
     }
 
-    attaquer(attaque:number):void{
+    attaquer(attaque:number):any{
         let cible = Entite.entites[attaque];
+
         if (cible.salle == this.salle){
             console.log(this.nom + " attaque : " + cible.nom);
             cible.totalVie = cible.totalVie-this.force;
@@ -35,6 +36,13 @@ class Hostile extends Entite {
                 this.totalVie = this.totalVie - (cible as Hostile).force;
             }
         }
+        
+        let force = 0;
+        if(cible instanceof Hostile)
+            force = cible.force;
+
+        return {  "attaquant":{"guid":this.guid, "degat":this.force, "vie":this.totalVie},
+                  "attaque":  {"guid":cible.guid, "degat":force, "vie":cible.totalVie}};
     }
     
     utiliser(idx:number):void {
@@ -46,6 +54,10 @@ class Hostile extends Entite {
     deEquiper():void{
         if(this.arme != null)
             this.arme.deEquipe(this);
+    }
+
+    vue():object{
+        return {"nom":this.nom,"guid":this.guid, "totalvie":this.totalVie, "arme":this.arme, "salle":this.salle.vue()};
     }
 }
 export {Hostile};

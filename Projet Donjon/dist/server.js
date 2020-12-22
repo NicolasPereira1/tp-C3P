@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const Joueur_1 = require("./Joueur");
-const Entite_1 = require("./Entite");
 const Salle_1 = require("./Salle");
 let app = express_1.default();
 let idJoueur = 1;
@@ -33,16 +32,13 @@ app.post('/:uid/deplacement', function (req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
     if (j != undefined) {
         j.deplacer(req.body["direction"]);
-        res.send(j.salle);
+        res.send(j.salle.vue());
     }
 });
 app.post('/:attaquant/taper/:attaque', function (req, res) {
     let h = listeUtilisateur.get(+req.params.attaquant);
-    let c = Entite_1.Entite.entites[+req.params.attaque];
     if (h != undefined) {
-        h.attaquer(+req.params.attaque);
-        res.send({ "attaquant": { "guid": h.guid, "degat": h.force, "vie": h.totalVie },
-            "attaque": { "guid": c.guid, "degat": c.force, "vie": c.totalVie } });
+        res.send(h.attaquer(+req.params.attaque));
     }
 });
 app.get('/:uid/examiner/:entite', function (req, res) {

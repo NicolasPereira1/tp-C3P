@@ -46,11 +46,13 @@ class Joueur extends Hostile_1.Hostile {
     }
     observerEntite(idx) {
         if (this.salle.entites.includes(idx))
-            return Entite_1.Entite.entites[idx];
+            return Entite_1.Entite.entites[idx].vue();
+        return { "type": "MORT", "message": "Cette entite n'existe pas." };
     }
     observerObjet(idx) {
         if (this.salle.objets.length > idx)
-            return this.salle.objets[idx];
+            return this.salle.objets[idx].vue();
+        return { "type": "MORT", "message": "Cet objet n'existe pas." };
     }
     prendre(idx) {
         let objet = this.salle.objets.splice(idx, idx + 1);

@@ -17,6 +17,8 @@ abstract class Entite {
         }
         return nouvelleListe;
     }
+
+    abstract vue():object;
 }
 
 export {Entite}

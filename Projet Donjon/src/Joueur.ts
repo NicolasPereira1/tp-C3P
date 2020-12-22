@@ -42,14 +42,16 @@ class Joueur extends Hostile {
         this.salle.entites.push(this.guid);      
     }
 
-    observerEntite(idx:number):Entite|undefined {
+    observerEntite(idx:number):object{
         if (this.salle.entites.includes(idx))
-            return Entite.entites[idx];
+            return Entite.entites[idx].vue();
+        return { "type": "MORT", "message": "Cette entite n'existe pas."};
     }
     
-    observerObjet(idx:number):Objet|undefined {
+    observerObjet(idx:number):object {
         if (this.salle.objets.length>idx)
-            return this.salle.objets[idx];
+            return this.salle.objets[idx].vue();
+        return { "type": "MORT", "message": "Cet objet n'existe pas."};
     }
 
     prendre(idx:number):void {

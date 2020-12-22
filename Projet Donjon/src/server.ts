@@ -35,17 +35,14 @@ app.post('/:uid/deplacement', function(req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
     if(j != undefined){
       j.deplacer(req.body["direction"]);
-        res.send(j.salle);
+        res.send(j.salle.vue());
     }
 });
 
 app.post('/:attaquant/taper/:attaque', function(req, res){
     let h = listeUtilisateur.get(+req.params.attaquant);
-    let c = Entite.entites[+req.params.attaque] as Hostile;
     if(h != undefined){
-        h.attaquer(+req.params.attaque);
-        res.send({  "attaquant":{"guid":h.guid, "degat":h.force, "vie":h.totalVie},
-                "attaque":  {"guid":c.guid, "degat":c.force, "vie":c.totalVie}});
+        res.send(h.attaquer(+req.params.attaque));
     }
 });
 

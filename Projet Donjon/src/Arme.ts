@@ -3,8 +3,8 @@ import { Hostile } from './Hostile';
 
 class Arme extends Objet {
 
-    constructor(public nom:string, public prix:number, public degat:number){
-        super(nom, prix);
+    constructor(public nom:string, public prix:number, public degat:number, public description:string){
+        super(nom, prix, description);
     }
 
     public utilise (hostile: Hostile):void{
@@ -24,6 +24,10 @@ class Arme extends Objet {
         hostile.arme = null;
         hostile.sac.push(this);
         hostile.force = hostile.force - this.degat;
+    }
+
+    vue():object{
+        return {"nom":this.nom, "description":this.description, "degat":this.degat, "prix":this.prix};
     }
 }
 

@@ -38,6 +38,11 @@ class Hostile extends Entite_1.Entite {
                 this.totalVie = this.totalVie - cible.force;
             }
         }
+        let force = 0;
+        if (cible instanceof Hostile)
+            force = cible.force;
+        return { "attaquant": { "guid": this.guid, "degat": this.force, "vie": this.totalVie },
+            "attaque": { "guid": cible.guid, "degat": force, "vie": cible.totalVie } };
     }
     utiliser(idx) {
         let objet = this.sac.splice(idx, idx + 1);
@@ -47,6 +52,9 @@ class Hostile extends Entite_1.Entite {
     deEquiper() {
         if (this.arme != null)
             this.arme.deEquipe(this);
+    }
+    vue() {
+        return { "nom": this.nom, "guid": this.guid, "totalvie": this.totalVie, "arme": this.arme, "salle": this.salle.vue() };
     }
 }
 exports.Hostile = Hostile;
