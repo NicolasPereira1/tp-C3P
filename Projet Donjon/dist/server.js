@@ -18,10 +18,11 @@ app.get('/', function (req, res) {
     res.render('index.ejs');
 });
 app.post('/connect', function (req, res) {
+    var _a;
     let joueur = new Joueur_1.Joueur("Joueur " + idJoueur, 50, idJoueur, Salle_1.Salle.donjon[0]);
     listeUtilisateur.set(idJoueur, joueur);
     idJoueur++;
-    res.send(listeUtilisateur.get(idJoueur - 1));
+    res.send((_a = listeUtilisateur.get(idJoueur - 1)) === null || _a === void 0 ? void 0 : _a.vue());
 });
 app.get('/:uid/regarder', function (req, res) {
     let joueur = listeUtilisateur.get(+req.params.uid);

@@ -61,5 +61,8 @@ class Joueur extends Hostile_1.Hostile {
             console.log("Cet objet n'existe pas");
         }
     }
+    vue() {
+        return { "nom": this.nom, "guid": this.guid, "totalvie": this.totalVie, "arme": this.arme, "salle": this.salle.vue() };
+    }
 }
 exports.Joueur = Joueur;

@@ -35,10 +35,10 @@ class Salle {
         Salle.donjon[2].objets.push(new Arme_1.Arme("Épée en bois", 10, 5));
         Salle.donjon[3].objets.push(new PotionCritique_1.PotionCritique("Potion coup crique I", 50, 0.05));
         Entite_1.Entite.ajouterEntite(new Hostile_1.Hostile("Gros rat méchant", 20, 5, 0, Salle.donjon[4]));
-        console.log(this.donjon[0].passages.keys());
     }
     vue() {
-        return { "nom": this.nomSalle, "description": this.description, "passages": this.passages.keys(), "entites": this.entites, "objets": this.objets };
+        let passages = Array.from(this.passages.keys());
+        return { "nom": this.nomSalle, "description": this.description, "passages": passages, "entites": this.entites, "objets": this.objets };
     }
 }
 exports.Salle = Salle;

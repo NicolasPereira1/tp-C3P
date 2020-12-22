@@ -5,6 +5,7 @@ import { Hostile } from './Hostile';
 import { PotionDeForce } from './PotionDeForce';
 import { PotionDeVie } from './PotionDeVie';
 import { PotionCritique } from './PotionCritique';
+import e from 'express';
 
 class Salle {
     public static donjon:Salle[] = [];
@@ -45,9 +46,9 @@ class Salle {
         Entite.ajouterEntite( new Hostile("Gros rat méchant", 20, 5, 0, Salle.donjon[4]));
     }
 
-    public vue():object{
-        
-        return {"nom":this.nomSalle,"description":this.description, "passages":this.passages.keys(), "entites":this.entites, "objets":this.objets};
+    vue():object{
+        let passages = Array.from(this.passages.keys());
+        return {"nom":this.nomSalle,"description":this.description, "passages":passages, "entites":this.entites, "objets":this.objets};
     }
 }
 export {Salle};
