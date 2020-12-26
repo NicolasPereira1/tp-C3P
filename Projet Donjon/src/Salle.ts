@@ -5,7 +5,6 @@ import { Hostile } from './Hostile';
 import { PotionDeForce } from './PotionDeForce';
 import { PotionDeVie } from './PotionDeVie';
 import { PotionCritique } from './PotionCritique';
-import e from 'express';
 
 class Salle {
     public static donjon:Salle[] = [];

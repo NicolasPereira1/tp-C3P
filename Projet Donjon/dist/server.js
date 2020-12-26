@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const Joueur_1 = require("./Joueur");
 const Salle_1 = require("./Salle");
+const EntiteNotFindException_1 = require("./EntiteNotFindException");
 let app = express_1.default();
 let idJoueur = 1;
 let listeUtilisateur = new Map();
@@ -24,9 +25,16 @@ app.post('/connect', function (req, res) {
     res.send((_a = listeUtilisateur.get(idJoueur - 1)) === null || _a === void 0 ? void 0 : _a.vue());
 });
 app.get('/:uid/regarder', function (req, res) {
-    let joueur = listeUtilisateur.get(+req.params.uid);
-    if (joueur != undefined)
-        res.send(joueur.salle.vue());
+    try {
+        let joueur = listeUtilisateur.get(+req.params.uid);
+        if (joueur != undefined)
+            res.send(joueur.salle.vue());
+        else
+            throw new EntiteNotFindException_1.EntiteNotFindException();
+    }
+    catch (err) {
+        gestionErreur(err, res);
+    }
 });
 app.post('/:uid/deplacement', function (req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
@@ -65,7 +73,7 @@ app.get('/:uid/utiliser/:obj', function (req, res) {
         res.send(j.vue());
     }
 });
-app.get('/:uid/deEquipe', function (req, res) {
+app.get('/:uid/deEquiper', function (req, res) {
     let j = listeUtilisateur.get(+req.params.uid);
     if (j != undefined) {
         j.deEquiper();
@@ -73,3 +81,7 @@ app.get('/:uid/deEquipe', function (req, res) {
     }
 });
 app.listen(8080);
+function gestionErreur(erreur, res) {
+    res.status(404);
+    res.send("Aie");
+}

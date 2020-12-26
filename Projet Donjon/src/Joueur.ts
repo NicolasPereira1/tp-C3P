@@ -2,6 +2,7 @@ import { Salle } from './Salle';
 import { Objet } from './Objet';
 import { Entite } from './Entite';
 import { Hostile } from './Hostile';
+import { JSONFieldException } from './JSONFieldException';
 
 class Joueur extends Hostile {
     public or:number = 0;
@@ -13,7 +14,6 @@ class Joueur extends Hostile {
 
     deplacer(direction:string) {
         let next = undefined;
-        this.salle.entites = this.remove(this.salle.entites, this.guid);
         switch (direction){
             case "N":
                 next = this.salle.passages.get(direction);
@@ -35,11 +35,12 @@ class Joueur extends Hostile {
             break;
         }
         if(next == undefined){
-            console.log("Salle inaccéssible depuis la votre.");
+            throw new JSONFieldException();
         }else{
+            this.salle.entites = this.remove(this.salle.entites, this.guid);
             this.salle = next;
+            this.salle.entites.push(this.guid);
         }
-        this.salle.entites.push(this.guid);      
     }
 
     observerEntite(idx:number):object{

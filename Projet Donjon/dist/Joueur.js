@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Joueur = void 0;
 const Entite_1 = require("./Entite");
 const Hostile_1 = require("./Hostile");
+const JSONFieldException_1 = require("./JSONFieldException");
 class Joueur extends Hostile_1.Hostile {
     constructor(nom, totalVie, guid, salle) {
         super(nom, totalVie, 5, guid, salle);
@@ -15,7 +16,6 @@ class Joueur extends Hostile_1.Hostile {
     }
     deplacer(direction) {
         let next = undefined;
-        this.salle.entites = this.remove(this.salle.entites, this.guid);
         switch (direction) {
             case "N":
                 next = this.salle.passages.get(direction);
@@ -37,12 +37,13 @@ class Joueur extends Hostile_1.Hostile {
                 break;
         }
         if (next == undefined) {
-            console.log("Salle inaccéssible depuis la votre.");
+            throw new JSONFieldException_1.JSONFieldException();
         }
         else {
+            this.salle.entites = this.remove(this.salle.entites, this.guid);
             this.salle = next;
+            this.salle.entites.push(this.guid);
         }
-        this.salle.entites.push(this.guid);
     }
     observerEntite(idx) {
         if (this.salle.entites.includes(idx))
