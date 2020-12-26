@@ -1,5 +1,6 @@
 import { Arme } from "./Arme";
 import { Entite } from "./Entite";
+import { EntiteNotFindException } from "./EntiteNotFindException";
 import { Objet } from "./Objet";
 import { Salle } from "./Salle";
 
@@ -18,7 +19,7 @@ class Hostile extends Entite {
             (Entite.entites[attaque] as Hostile).combattre(this.guid);
     }
 
-    attaquer(attaque:number):any{
+    attaquer(attaque:number):object{
         let cible = Entite.entites[attaque];
 
         if (cible.salle == this.salle){
@@ -35,6 +36,8 @@ class Hostile extends Entite {
             }else if(cible instanceof Hostile){
                 this.totalVie = this.totalVie - (cible as Hostile).force;
             }
+        } else {
+            throw new EntiteNotFindException();
         }
         
         let force = 0;

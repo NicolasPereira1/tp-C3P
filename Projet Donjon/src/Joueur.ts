@@ -3,6 +3,7 @@ import { Objet } from './Objet';
 import { Entite } from './Entite';
 import { Hostile } from './Hostile';
 import { JSONFieldException } from './JSONFieldException';
+import { EntiteNotFindException } from './EntiteNotFindException';
 
 class Joueur extends Hostile {
     public or:number = 0;
@@ -46,7 +47,7 @@ class Joueur extends Hostile {
     observerEntite(idx:number):object{
         if (this.salle.entites.includes(idx))
             return Entite.entites[idx].vue();
-        return { "type": "MORT", "message": "Cette entite n'existe pas."};
+        throw new EntiteNotFindException();
     }
     
     observerObjet(idx:number):object {

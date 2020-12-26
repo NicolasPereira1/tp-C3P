@@ -27,26 +27,35 @@ app.post('/connect', function (req, res) {
 app.get('/:uid/regarder', function (req, res) {
     try {
         let joueur = listeUtilisateur.get(+req.params.uid);
-        if (joueur != undefined)
-            res.send(joueur.salle.vue());
-        else
+        if (joueur == undefined)
             throw new EntiteNotFindException_1.EntiteNotFindException();
+        res.send(joueur.salle.vue());
     }
     catch (err) {
         gestionErreur(err, res);
     }
 });
 app.post('/:uid/deplacement', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if (j != undefined) {
+    try {
+        let j = listeUtilisateur.get(+req.params.uid);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         j.deplacer(req.body["direction"]);
         res.send(j.salle.vue());
     }
+    catch (err) {
+        gestionErreur(err, res);
+    }
 });
 app.post('/:attaquant/taper/:attaque', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.attaquant);
-    if (j != undefined) {
+    try {
+        let j = listeUtilisateur.get(+req.params.attaquant);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         res.send(j.attaquer(+req.params.attaque));
+    }
+    catch (err) {
+        gestionErreur(err, res);
     }
 });
 app.get('/:uid/examiner/:entite', function (req, res) {
@@ -83,5 +92,5 @@ app.get('/:uid/deEquiper', function (req, res) {
 app.listen(8080);
 function gestionErreur(erreur, res) {
     res.status(404);
-    res.send("Aie");
+    res.send(erreur.name);
 }

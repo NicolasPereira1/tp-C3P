@@ -49,45 +49,71 @@ app.post('/:uid/deplacement', function(req, res) {
 });
 
 app.post('/:attaquant/taper/:attaque', function(req, res){
-    let j = listeUtilisateur.get(+req.params.attaquant);
-    if(j != undefined){
+    try{
+        let j = listeUtilisateur.get(+req.params.attaquant);
+        if(j == undefined)
+            throw new EntiteNotFindException();
         res.send(j.attaquer(+req.params.attaque));
+    }catch(err){
+        gestionErreur(err, res);
     }
 });
 
 app.get('/:uid/examiner/:entite', function(req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if(j != undefined)
+    try{
+        let j = listeUtilisateur.get(+req.params.uid);
+        if(j == undefined)
+            throw new EntiteNotFindException();
         res.send(j.observerEntite(+req.params.entite));
+    }catch(err){
+        gestionErreur(err, res);
+    }
 });
 
 app.get('/:uid/observerObjet/:objet', function(req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if(j != undefined)
+    try{
+        let j = listeUtilisateur.get(+req.params.uid);
+        if(j == undefined)
+            throw new EntiteNotFindException();
         res.send(j.observerObjet(+req.params.objet));
+    }catch(err){
+        gestionErreur(err, res);
+    }
 });
 
 app.get('/:uid/prendre/:obj', function(req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if(j != undefined){
+    try{
+        let j = listeUtilisateur.get(+req.params.uid);
+        if(j == undefined)
+            throw new EntiteNotFindException();
         j.prendre(+req.params.obj);
         res.send(j.vue());
+    }catch(err){
+        gestionErreur(err, res);
     }
 });
 
 app.get('/:uid/utiliser/:obj', function(req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if(j != undefined){
+    try{
+        let j = listeUtilisateur.get(+req.params.uid);
+        if(j == undefined)
+            throw new EntiteNotFindException();
         j.utiliser(+req.params.obj);
         res.send(j.vue());
+    }catch(err){
+        gestionErreur(err, res);
     }
 });
 
 app.get('/:uid/deEquiper', function(req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if(j != undefined){
-    j.deEquiper();
+    try{
+        let j = listeUtilisateur.get(+req.params.uid);
+        if(j == undefined)
+            throw new EntiteNotFindException();
+        j.deEquiper();
         res.send(j.vue());
+    }catch(err){
+        gestionErreur(err, res);
     }
 });
 
@@ -95,5 +121,6 @@ app.listen(8080);
 
 function gestionErreur(erreur:Error, res:Response):void{
     res.status(404);
-    res.send("Aie");
+    res.send(erreur.name);
+    //{ "type": "MORT", "message": "Cette entite n'existe pas."}
 }

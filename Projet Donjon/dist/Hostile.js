@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
 const Entite_1 = require("./Entite");
+const EntiteNotFindException_1 = require("./EntiteNotFindException");
 const Salle_1 = require("./Salle");
 class Hostile extends Entite_1.Entite {
     constructor(nom, totalVie, force, guid, salle) {
@@ -37,6 +38,9 @@ class Hostile extends Entite_1.Entite {
             else if (cible instanceof Hostile) {
                 this.totalVie = this.totalVie - cible.force;
             }
+        }
+        else {
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         }
         let force = 0;
         if (cible instanceof Hostile)
