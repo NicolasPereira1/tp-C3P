@@ -4,6 +4,9 @@ exports.Joueur = void 0;
 const Entite_1 = require("./Entite");
 const Hostile_1 = require("./Hostile");
 const JSONFieldException_1 = require("./JSONFieldException");
+const EntiteNotFindException_1 = require("./EntiteNotFindException");
+const ObjectNotFindException_1 = require("./ObjectNotFindException");
+const NoAccessException_1 = require("./NoAccessException");
 class Joueur extends Hostile_1.Hostile {
     constructor(nom, totalVie, guid, salle) {
         super(nom, totalVie, 5, guid, salle);
@@ -35,9 +38,11 @@ class Joueur extends Hostile_1.Hostile {
             case "B":
                 next = this.salle.passages.get(direction);
                 break;
+            default:
+                throw new JSONFieldException_1.JSONFieldException();
         }
         if (next == undefined) {
-            throw new JSONFieldException_1.JSONFieldException();
+            throw new NoAccessException_1.NoAccessException();
         }
         else {
             this.salle.entites = this.remove(this.salle.entites, this.guid);
@@ -48,21 +53,18 @@ class Joueur extends Hostile_1.Hostile {
     observerEntite(idx) {
         if (this.salle.entites.includes(idx))
             return Entite_1.Entite.entites[idx].vue();
-        return { "type": "MORT", "message": "Cette entite n'existe pas." };
+        throw new EntiteNotFindException_1.EntiteNotFindException();
     }
     observerObjet(idx) {
         if (this.salle.objets.length > idx)
             return this.salle.objets[idx].vue();
-        return { "type": "MORT", "message": "Cet objet n'existe pas." };
+        throw new ObjectNotFindException_1.ObjectNotFindException();
     }
     prendre(idx) {
         let objet = this.salle.objets.splice(idx, idx + 1);
-        if (objet != null) {
-            this.sac.push(objet[0]);
-        }
-        else {
-            console.log("Cet objet n'existe pas");
-        }
+        if (objet.length == 0)
+            throw new ObjectNotFindException_1.ObjectNotFindException();
+        this.sac.push(objet[0]);
     }
     vue() {
         return Object.assign(super.vue(), { "or": this.or, "salle": this.salle });

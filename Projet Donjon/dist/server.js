@@ -7,7 +7,10 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const Joueur_1 = require("./Joueur");
 const Salle_1 = require("./Salle");
+const JSONFieldException_1 = require("./JSONFieldException");
 const EntiteNotFindException_1 = require("./EntiteNotFindException");
+const ObjectNotFindException_1 = require("./ObjectNotFindException");
+const NoAccessException_1 = require("./NoAccessException");
 let app = express_1.default();
 let idJoueur = 1;
 let listeUtilisateur = new Map();
@@ -59,38 +62,90 @@ app.post('/:attaquant/taper/:attaque', function (req, res) {
     }
 });
 app.get('/:uid/examiner/:entite', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if (j != undefined)
+    try {
+        let j = listeUtilisateur.get(+req.params.uid);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         res.send(j.observerEntite(+req.params.entite));
+    }
+    catch (err) {
+        gestionErreur(err, res);
+    }
 });
 app.get('/:uid/observerObjet/:objet', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if (j != undefined)
+    try {
+        let j = listeUtilisateur.get(+req.params.uid);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         res.send(j.observerObjet(+req.params.objet));
+    }
+    catch (err) {
+        gestionErreur(err, res);
+    }
 });
 app.get('/:uid/prendre/:obj', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if (j != undefined) {
+    try {
+        let j = listeUtilisateur.get(+req.params.uid);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         j.prendre(+req.params.obj);
         res.send(j.vue());
     }
+    catch (err) {
+        gestionErreur(err, res);
+    }
 });
 app.get('/:uid/utiliser/:obj', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if (j != undefined) {
+    try {
+        let j = listeUtilisateur.get(+req.params.uid);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         j.utiliser(+req.params.obj);
         res.send(j.vue());
     }
+    catch (err) {
+        gestionErreur(err, res);
+    }
 });
 app.get('/:uid/deEquiper', function (req, res) {
-    let j = listeUtilisateur.get(+req.params.uid);
-    if (j != undefined) {
+    try {
+        let j = listeUtilisateur.get(+req.params.uid);
+        if (j == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         j.deEquiper();
         res.send(j.vue());
+    }
+    catch (err) {
+        gestionErreur(err, res);
     }
 });
 app.listen(8080);
 function gestionErreur(erreur, res) {
+    /*
+        Attention aux champs manquants
+        Commandes inconnues
+    */
+    res.status(400);
+    if (erreur instanceof JSONFieldException_1.JSONFieldException) {
+        res.send({ "type": "ERREUR_JSON", "message": erreur.message });
+        return;
+    }
     res.status(404);
-    res.send(erreur.name);
+    if (erreur instanceof EntiteNotFindException_1.EntiteNotFindException) {
+        res.send({ "type": "NON_TROUVE", "message": erreur.message });
+        return;
+    }
+    res.status(409);
+    if (erreur instanceof NoAccessException_1.NoAccessException) {
+        res.send({ "type": "MUR", "message": erreur.message });
+        return;
+    }
+    else if (erreur instanceof EntiteNotFindException_1.EntiteNotFindException) {
+        res.send({ "type": "MORT", "message": erreur.message });
+        return;
+    }
+    else if (erreur instanceof ObjectNotFindException_1.ObjectNotFindException) {
+        res.send({ "type": "DISPARU", "message": erreur.message });
+        return;
+    }
 }

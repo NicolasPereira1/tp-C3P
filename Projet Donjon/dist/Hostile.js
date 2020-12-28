@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
 const Entite_1 = require("./Entite");
 const EntiteNotFindException_1 = require("./EntiteNotFindException");
+const ObjectNotFindException_1 = require("./ObjectNotFindException");
 const Salle_1 = require("./Salle");
 class Hostile extends Entite_1.Entite {
     constructor(nom, totalVie, force, guid, salle) {
@@ -23,6 +24,8 @@ class Hostile extends Entite_1.Entite {
     }
     attaquer(attaque) {
         let cible = Entite_1.Entite.entites[attaque];
+        if (cible == undefined)
+            throw new EntiteNotFindException_1.EntiteNotFindException();
         if (cible.salle == this.salle) {
             console.log(this.nom + " attaque : " + cible.nom);
             cible.totalVie = cible.totalVie - this.force;
@@ -50,12 +53,14 @@ class Hostile extends Entite_1.Entite {
     }
     utiliser(idx) {
         let objet = this.sac.splice(idx, idx + 1);
-        if (objet != null)
-            objet[0].utilise(this);
+        if (objet.length == 0)
+            throw new ObjectNotFindException_1.ObjectNotFindException();
+        objet[0].utilise(this);
     }
     deEquiper() {
-        if (this.arme != null)
-            this.arme.deEquipe(this);
+        if (this.arme == undefined)
+            throw new ObjectNotFindException_1.ObjectNotFindException();
+        this.arme.deEquipe(this);
     }
     vue() {
         return { "nom": this.nom, "guid": this.guid, "totalvie": this.totalVie, "arme": this.arme, "force": this.force, "critique": this.critique, "sac": this.sac };

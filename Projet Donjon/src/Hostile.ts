@@ -1,6 +1,7 @@
 import { Arme } from "./Arme";
 import { Entite } from "./Entite";
 import { EntiteNotFindException } from "./EntiteNotFindException";
+import { ObjectNotFindException } from "./ObjectNotFindException";
 import { Objet } from "./Objet";
 import { Salle } from "./Salle";
 
@@ -21,6 +22,8 @@ class Hostile extends Entite {
 
     attaquer(attaque:number):object{
         let cible = Entite.entites[attaque];
+        if(cible == undefined)
+            throw new EntiteNotFindException();
 
         if (cible.salle == this.salle){
             console.log(this.nom + " attaque : " + cible.nom);
@@ -50,13 +53,15 @@ class Hostile extends Entite {
     
     utiliser(idx:number):void {
         let objet = this.sac.splice(idx,idx+1);
-        if(objet != null)
-            objet[0].utilise(this);
+        if(objet.length == 0)
+            throw new ObjectNotFindException();
+        objet[0].utilise(this);
     }
 
     deEquiper():void{
-        if(this.arme != null)
-            this.arme.deEquipe(this);
+        if(this.arme == undefined)
+            throw new ObjectNotFindException();
+        this.arme.deEquipe(this);
     }
 
     vue():object{

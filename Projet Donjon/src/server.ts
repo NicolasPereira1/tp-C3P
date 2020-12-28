@@ -122,19 +122,35 @@ app.get('/:uid/deEquiper', function(req, res) {
 app.listen(8080);
 
 function gestionErreur(erreur:Error, res:Response):void{
+    /*
+        Attention aux champs manquants
+        Commandes inconnues
+        fight entre joueurs
+    */
+
     res.status(400);
-    if(erreur instanceof JSONFieldException)
-        res.send("Erreur 400");
+    if(erreur instanceof JSONFieldException){
+        res.send({ "type": "ERREUR_JSON", "message": erreur.message});
+        return;
+    }
     
         res.status(404);
-    if(erreur instanceof EntiteNotFindException)
-        res.send("Erreur 404");
+    if(erreur instanceof EntiteNotFindException){
+        res.send({ "type": "NON_TROUVE", "message": erreur.message});
+        return;
+    }
 
     res.status(409);
-    if(erreur instanceof NoAccessException)
-        res.send({ "type": "MUR", "message": "Il n'y a pas de passage pour aller vers cette salle."});
-    else if(erreur instanceof EntiteNotFindException)
-        res.send({ "type": "MORT", "message": "Cette entite n'existe pas."});
-    else if(erreur instanceof ObjectNotFindException)
-        res.send({ "type": "DISPARU", "message": "Cet objet n'existe pas."});
+    if(erreur instanceof NoAccessException){
+        res.send({ "type": "MUR", "message": erreur.message});
+        return;
+    }
+    else if(erreur instanceof EntiteNotFindException){
+        res.send({ "type": "MORT", "message": erreur.message});
+        return;
+    }
+    else if(erreur instanceof ObjectNotFindException){
+        res.send({ "type": "DISPARU", "message": erreur.message});
+        return;
+    }
 }

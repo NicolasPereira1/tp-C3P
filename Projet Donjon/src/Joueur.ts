@@ -62,11 +62,9 @@ class Joueur extends Hostile {
 
     prendre(idx:number):void {
         let objet = this.salle.objets.splice(idx,idx+1);
-        if( objet != null){
-            this.sac.push(objet[0]);
-        }else{
-            console.log("Cet objet n'existe pas");
-        }
+        if( objet.length == 0)
+            throw new ObjectNotFindException();
+        this.sac.push(objet[0]);
     }
     
     vue():object{
