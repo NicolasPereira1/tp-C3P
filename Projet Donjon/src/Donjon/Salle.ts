@@ -1,10 +1,10 @@
-import { Arme } from './Arme';
-import { Objet } from './Objet';
+import { Arme } from '../Items/Arme';
+import { Objet } from '../Items/Objet';
 import { Entite } from './Entite';
 import { Hostile } from './Hostile';
-import { PotionDeForce } from './PotionDeForce';
-import { PotionDeVie } from './PotionDeVie';
-import { PotionCritique } from './PotionCritique';
+import { PotionDeForce } from '../Items/PotionDeForce';
+import { PotionDeVie } from '../Items/PotionDeVie';
+import { PotionCritique } from '../Items/PotionCritique';
 
 class Salle {
     public static donjon:Salle[] = [];

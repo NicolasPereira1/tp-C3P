@@ -1,8 +1,8 @@
-class ObjectNotFindException extends Error {
+class ObjectNotFoundException extends Error {
     
     constructor(){
         super("L'objet n'existe pas.");
     }
 }
 
-export {ObjectNotFindException}
+export {ObjectNotFoundException}

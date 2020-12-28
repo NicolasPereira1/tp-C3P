@@ -1,8 +1,8 @@
-class EntiteNotFindException extends Error {
+class EntiteNotFoundException extends Error {
     
     constructor(){
         super("L'entité n'existe pas.");
     }
 }
 
-export {EntiteNotFindException}
+export {EntiteNotFoundException}

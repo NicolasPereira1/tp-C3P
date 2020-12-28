@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
 const Entite_1 = require("./Entite");
-const EntiteNotFindException_1 = require("./EntiteNotFindException");
-const ObjectNotFindException_1 = require("./ObjectNotFindException");
+const EntiteNotFoundException_1 = require("../Exceptions/EntiteNotFoundException");
+const ObjectNotFoundException_1 = require("../Exceptions/ObjectNotFoundException");
 const Salle_1 = require("./Salle");
 class Hostile extends Entite_1.Entite {
     constructor(nom, totalVie, force, guid, salle) {
@@ -25,7 +25,7 @@ class Hostile extends Entite_1.Entite {
     attaquer(attaque) {
         let cible = Entite_1.Entite.entites[attaque];
         if (cible == undefined)
-            throw new EntiteNotFindException_1.EntiteNotFindException();
+            throw new EntiteNotFoundException_1.EntiteNotFoundException();
         if (cible.salle == this.salle) {
             console.log(this.nom + " attaque : " + cible.nom);
             cible.totalVie = cible.totalVie - this.force;
@@ -43,7 +43,7 @@ class Hostile extends Entite_1.Entite {
             }
         }
         else {
-            throw new EntiteNotFindException_1.EntiteNotFindException();
+            throw new EntiteNotFoundException_1.EntiteNotFoundException();
         }
         let force = 0;
         if (cible instanceof Hostile)
@@ -54,12 +54,12 @@ class Hostile extends Entite_1.Entite {
     utiliser(idx) {
         let objet = this.sac.splice(idx, idx + 1);
         if (objet.length == 0)
-            throw new ObjectNotFindException_1.ObjectNotFindException();
+            throw new ObjectNotFoundException_1.ObjectNotFoundException();
         objet[0].utilise(this);
     }
     deEquiper() {
         if (this.arme == undefined)
-            throw new ObjectNotFindException_1.ObjectNotFindException();
+            throw new ObjectNotFoundException_1.ObjectNotFoundException();
         this.arme.deEquipe(this);
     }
     vue() {

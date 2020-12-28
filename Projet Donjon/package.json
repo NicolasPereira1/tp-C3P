@@ -4,7 +4,8 @@
     "scripts": {
         "UML" : "tplant --input ./src/server.ts --output ./UML/UML.svg",
         "start": "node dist/server.js",
-        "build": "tsc -p ."
+        "build": "tsc -p .",
+        "clear": "rm -rdf dist && rm ./UML/*"
     },
     "dependencies": {
         "@types/express": "^4.17.9",

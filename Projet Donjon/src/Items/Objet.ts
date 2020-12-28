@@ -1,5 +1,5 @@
-import { Hostile } from './Hostile';
-import {Joueur} from './Joueur';
+import { Hostile } from '../Donjon/Hostile';
+import {Joueur} from '../Donjon/Joueur';
 
 abstract class Objet{
     constructor(public nom:string, public prix:number, public description:string){}

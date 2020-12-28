@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Salle = void 0;
-const Arme_1 = require("./Arme");
+const Arme_1 = require("../Items/Arme");
 const Entite_1 = require("./Entite");
 const Hostile_1 = require("./Hostile");
-const PotionDeForce_1 = require("./PotionDeForce");
-const PotionDeVie_1 = require("./PotionDeVie");
-const PotionCritique_1 = require("./PotionCritique");
+const PotionDeForce_1 = require("../Items/PotionDeForce");
+const PotionDeVie_1 = require("../Items/PotionDeVie");
+const PotionCritique_1 = require("../Items/PotionCritique");
 class Salle {
     constructor(nomSalle, passages, description) {
         this.nomSalle = nomSalle;

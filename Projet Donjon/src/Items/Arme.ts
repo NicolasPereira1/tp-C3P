@@ -1,5 +1,5 @@
 import {Objet} from './Objet';
-import { Hostile } from './Hostile';
+import { Hostile } from '../Donjon/Hostile';
 
 class Arme extends Objet {
 

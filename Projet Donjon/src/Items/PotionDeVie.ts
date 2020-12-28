@@ -1,4 +1,4 @@
-import { Joueur } from './Joueur';
+import { Joueur } from '../Donjon/Joueur';
 import { Objet } from './Objet';
 
 class PotionDeVie extends Objet {

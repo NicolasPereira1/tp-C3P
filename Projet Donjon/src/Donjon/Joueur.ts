@@ -1,11 +1,11 @@
 import { Salle } from './Salle';
-import { Objet } from './Objet';
 import { Entite } from './Entite';
 import { Hostile } from './Hostile';
-import { JSONFieldException } from './JSONFieldException';
-import { EntiteNotFindException } from './EntiteNotFindException';
-import { ObjectNotFindException } from './ObjectNotFindException';
-import { NoAccessException } from './NoAccessException';
+import { NoAccessException } from '../Exceptions/NoAccessException';
+import { JSONFieldException } from '../Exceptions/JSONFieldException';
+import { EntiteNotFoundException } from '../Exceptions/EntiteNotFoundException';
+import { ObjectNotFoundException } from '../Exceptions/ObjectNotFoundException';
+
 
 class Joueur extends Hostile {
     public or:number = 0;
@@ -51,19 +51,19 @@ class Joueur extends Hostile {
     observerEntite(idx:number):object{
         if (this.salle.entites.includes(idx))
             return Entite.entites[idx].vue();
-        throw new EntiteNotFindException();
+        throw new EntiteNotFoundException();
     }
     
     observerObjet(idx:number):object {
         if (this.salle.objets.length>idx)
             return this.salle.objets[idx].vue();
-        throw new ObjectNotFindException();
+        throw new ObjectNotFoundException();
     }
 
     prendre(idx:number):void {
         let objet = this.salle.objets.splice(idx,idx+1);
         if( objet.length == 0)
-            throw new ObjectNotFindException();
+            throw new ObjectNotFoundException();
         this.sac.push(objet[0]);
     }
     

@@ -1,8 +1,8 @@
-import { Arme } from "./Arme";
+import { Arme } from "../Items/Arme";
 import { Entite } from "./Entite";
-import { EntiteNotFindException } from "./EntiteNotFindException";
-import { ObjectNotFindException } from "./ObjectNotFindException";
-import { Objet } from "./Objet";
+import { EntiteNotFoundException } from "../Exceptions/EntiteNotFoundException";
+import { ObjectNotFoundException } from "../Exceptions/ObjectNotFoundException";
+import { Objet } from "../Items/Objet";
 import { Salle } from "./Salle";
 
 class Hostile extends Entite {
@@ -23,7 +23,7 @@ class Hostile extends Entite {
     attaquer(attaque:number):object{
         let cible = Entite.entites[attaque];
         if(cible == undefined)
-            throw new EntiteNotFindException();
+            throw new EntiteNotFoundException();
 
         if (cible.salle == this.salle){
             console.log(this.nom + " attaque : " + cible.nom);
@@ -40,7 +40,7 @@ class Hostile extends Entite {
                 this.totalVie = this.totalVie - (cible as Hostile).force;
             }
         } else {
-            throw new EntiteNotFindException();
+            throw new EntiteNotFoundException();
         }
         
         let force = 0;
@@ -54,13 +54,13 @@ class Hostile extends Entite {
     utiliser(idx:number):void {
         let objet = this.sac.splice(idx,idx+1);
         if(objet.length == 0)
-            throw new ObjectNotFindException();
+            throw new ObjectNotFoundException();
         objet[0].utilise(this);
     }
 
     deEquiper():void{
         if(this.arme == undefined)
-            throw new ObjectNotFindException();
+            throw new ObjectNotFoundException();
         this.arme.deEquipe(this);
     }
 
