@@ -4,6 +4,8 @@ import { Joueur } from './Joueur';
 import { Salle } from './Salle';
 import { JSONFieldException } from './JSONFieldException';
 import { EntiteNotFindException } from './EntiteNotFindException';
+import { ObjectNotFindException } from './ObjectNotFindException';
+import { NoAccessException } from './NoAccessException';
 
 let app = express();
 let idJoueur = 1;
@@ -120,7 +122,19 @@ app.get('/:uid/deEquiper', function(req, res) {
 app.listen(8080);
 
 function gestionErreur(erreur:Error, res:Response):void{
-    res.status(404);
-    res.send(erreur.name);
-    //{ "type": "MORT", "message": "Cette entite n'existe pas."}
+    res.status(400);
+    if(erreur instanceof JSONFieldException)
+        res.send("Erreur 400");
+    
+        res.status(404);
+    if(erreur instanceof EntiteNotFindException)
+        res.send("Erreur 404");
+
+    res.status(409);
+    if(erreur instanceof NoAccessException)
+        res.send({ "type": "MUR", "message": "Il n'y a pas de passage pour aller vers cette salle."});
+    else if(erreur instanceof EntiteNotFindException)
+        res.send({ "type": "MORT", "message": "Cette entite n'existe pas."});
+    else if(erreur instanceof ObjectNotFindException)
+        res.send({ "type": "DISPARU", "message": "Cet objet n'existe pas."});
 }

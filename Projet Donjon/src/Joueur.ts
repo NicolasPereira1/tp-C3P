@@ -4,6 +4,8 @@ import { Entite } from './Entite';
 import { Hostile } from './Hostile';
 import { JSONFieldException } from './JSONFieldException';
 import { EntiteNotFindException } from './EntiteNotFindException';
+import { ObjectNotFindException } from './ObjectNotFindException';
+import { NoAccessException } from './NoAccessException';
 
 class Joueur extends Hostile {
     public or:number = 0;
@@ -34,9 +36,11 @@ class Joueur extends Hostile {
             case "B":
                 next = this.salle.passages.get(direction);
             break;
+            default:
+                throw new JSONFieldException();
         }
         if(next == undefined){
-            throw new JSONFieldException();
+            throw new NoAccessException();
         }else{
             this.salle.entites = this.remove(this.salle.entites, this.guid);
             this.salle = next;
@@ -53,7 +57,7 @@ class Joueur extends Hostile {
     observerObjet(idx:number):object {
         if (this.salle.objets.length>idx)
             return this.salle.objets[idx].vue();
-        return { "type": "MORT", "message": "Cet objet n'existe pas."};
+        throw new ObjectNotFindException();
     }
 
     prendre(idx:number):void {
