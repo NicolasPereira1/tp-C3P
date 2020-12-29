@@ -49,9 +49,10 @@ class Joueur extends Hostile_1.Hostile {
         }
     }
     observerEntite(idx) {
-        // if (this.salle.entites.includes(idx))
-        //     return Entite.entites[idx].vue();
-        throw new EntiteNotFoundException_1.EntiteNotFoundException();
+        let entite = Entite_1.Entite.entites.get(idx);
+        if (entite == undefined || entite.salle != this.salle)
+            throw new EntiteNotFoundException_1.EntiteNotFoundException();
+        return entite.vue();
     }
     observerObjet(idx) {
         if (this.salle.objets.length > idx)

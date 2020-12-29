@@ -13,7 +13,7 @@ const ObjectNotFoundException_1 = require("./Exceptions/ObjectNotFoundException"
 const CommandNotFoundException_1 = require("./Exceptions/CommandNotFoundException");
 const NoAccessException_1 = require("./Exceptions/NoAccessException");
 let app = express_1.default();
-let idJoueur = 1;
+let idJoueur = 101;
 let listeUtilisateur = new Map();
 app.use(express_1.default.static("public"));
 app.use(body_parser_1.default.json());
@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
 });
 app.post('/connect', function (req, res) {
     var _a;
-    let joueur = new Joueur_1.Joueur("Joueur " + idJoueur, 50, idJoueur, Salle_1.Salle.donjon[0]);
+    let joueur = new Joueur_1.Joueur("Joueur " + (idJoueur - 100), 50, idJoueur, Salle_1.Salle.donjon[0]);
     listeUtilisateur.set(idJoueur, joueur);
     idJoueur++;
     res.send((_a = listeUtilisateur.get(idJoueur - 1)) === null || _a === void 0 ? void 0 : _a.vue());

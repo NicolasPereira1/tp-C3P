@@ -9,7 +9,7 @@ import { CommandNotFoundException } from './Exceptions/CommandNotFoundException'
 import { NoAccessException } from './Exceptions/NoAccessException';
 
 let app = express();
-let idJoueur = 1;
+let idJoueur = 101;
 let listeUtilisateur = new Map<number,Joueur>();
 
 app.use( express.static( "public" ) );
@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/connect', function(req, res) {
-    let joueur = new Joueur("Joueur "+idJoueur, 50, idJoueur, Salle.donjon[0]);
+    let joueur = new Joueur("Joueur "+(idJoueur-100), 50, idJoueur, Salle.donjon[0]);
     listeUtilisateur.set(idJoueur,joueur);
     idJoueur++;
     res.send(listeUtilisateur.get(idJoueur-1)?.vue());
