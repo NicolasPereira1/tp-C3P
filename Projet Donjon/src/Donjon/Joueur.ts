@@ -10,9 +10,8 @@ import { ObjectNotFoundException } from '../Exceptions/ObjectNotFoundException';
 class Joueur extends Hostile {
     public or:number = 0;
 
-    constructor(public nom:string, public totalVie:number, public guid:number, public salle:Salle){
-        super(nom, totalVie, 5, guid, salle);
-        Entite.entites.set(guid, this);
+    constructor(public nom:string, public totalVie:number, public salle:Salle){
+        super(nom, totalVie, 5, salle);
     }
 
     deplacer(direction:string) {
@@ -47,7 +46,7 @@ class Joueur extends Hostile {
     }
 
     observerEntite(idx:number):object{
-        let entite = Entite.entites.get(idx);
+        let entite = Entite.getEntite(idx);
         if (entite == undefined || entite.salle != this.salle)
             throw new EntiteNotFoundException();
         return entite.vue();

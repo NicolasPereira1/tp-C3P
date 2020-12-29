@@ -8,14 +8,12 @@ const JSONFieldException_1 = require("../Exceptions/JSONFieldException");
 const EntiteNotFoundException_1 = require("../Exceptions/EntiteNotFoundException");
 const ObjectNotFoundException_1 = require("../Exceptions/ObjectNotFoundException");
 class Joueur extends Hostile_1.Hostile {
-    constructor(nom, totalVie, guid, salle) {
-        super(nom, totalVie, 5, guid, salle);
+    constructor(nom, totalVie, salle) {
+        super(nom, totalVie, 5, salle);
         this.nom = nom;
         this.totalVie = totalVie;
-        this.guid = guid;
         this.salle = salle;
         this.or = 0;
-        Entite_1.Entite.entites.set(guid, this);
     }
     deplacer(direction) {
         let next = undefined;
@@ -49,7 +47,7 @@ class Joueur extends Hostile_1.Hostile {
         }
     }
     observerEntite(idx) {
-        let entite = Entite_1.Entite.entites.get(idx);
+        let entite = Entite_1.Entite.getEntite(idx);
         if (entite == undefined || entite.salle != this.salle)
             throw new EntiteNotFoundException_1.EntiteNotFoundException();
         return entite.vue();

@@ -7,10 +7,11 @@ import { EntiteNotFoundException } from './Exceptions/EntiteNotFoundException';
 import { ObjectNotFoundException } from './Exceptions/ObjectNotFoundException';
 import { CommandNotFoundException } from './Exceptions/CommandNotFoundException';
 import { NoAccessException } from './Exceptions/NoAccessException';
+import { Entite } from './Donjon/Entite';
+import { Hostile } from './Donjon/Hostile';
 
 let app = express();
-let idJoueur = 101;
-let listeUtilisateur = new Map<number,Joueur>();
+let nbrJoueur = 1;
 
 app.use( express.static( "public" ) );
 app.use(bodyParser.json());
@@ -22,15 +23,13 @@ app.get('/', function(req, res) {
 });
 
 app.post('/connect', function(req, res) {
-    let joueur = new Joueur("Joueur "+(idJoueur-100), 50, idJoueur, Salle.donjon[0]);
-    listeUtilisateur.set(idJoueur,joueur);
-    idJoueur++;
-    res.send(listeUtilisateur.get(idJoueur-1)?.vue());
+    let id = Entite.ajouterEntite(new Joueur("Joueur"+nbrJoueur++, 50, Salle.donjon[0]));
+    res.send(Entite.getEntite(id).vue());
 });
 
 app.get('/:uid/regarder', function(req, res) {
     try{
-        let joueur = listeUtilisateur.get(+req.params.uid);
+        let joueur = Entite.getEntite(+req.params.uid);
         if(joueur == undefined)
             throw new EntiteNotFoundException();
         res.send(joueur.salle.vue());
@@ -41,10 +40,12 @@ app.get('/:uid/regarder', function(req, res) {
 
 app.post('/:uid/deplacement', function(req, res) {
     try{
-        let j = listeUtilisateur.get(+req.params.uid);
+        let j = Entite.getEntite(+req.params.uid);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        j.deplacer(req.body["direction"]);
+        if(!(j instanceof Joueur))
+            throw new  CommandNotFoundException();
+        (j as Joueur).deplacer(req.body["direction"]);
         res.send(j.salle.vue());
     }catch(err){
         gestionErreur(err, res);
@@ -53,10 +54,12 @@ app.post('/:uid/deplacement', function(req, res) {
 
 app.post('/:attaquant/taper/:attaque', function(req, res){
     try{
-        let j = listeUtilisateur.get(+req.params.attaquant);
+        let j = Entite.getEntite(+req.params.attaquant);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        res.send(j.attaquer(+req.params.attaque));
+        if(!(j instanceof Hostile))
+            throw new CommandNotFoundException();
+        res.send((j as Hostile).attaquer(+req.params.attaque));
     }catch(err){
         gestionErreur(err, res);
     }
@@ -64,10 +67,12 @@ app.post('/:attaquant/taper/:attaque', function(req, res){
 
 app.get('/:uid/examiner/:entite', function(req, res) {
     try{
-        let j = listeUtilisateur.get(+req.params.uid);
+        let j = Entite.getEntite(+req.params.uid);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        res.send(j.observerEntite(+req.params.entite));
+        if(!(j instanceof Joueur))
+            throw new CommandNotFoundException();
+        res.send((j as Joueur).observerEntite(+req.params.entite));
     }catch(err){
         gestionErreur(err, res);
     }
@@ -75,10 +80,12 @@ app.get('/:uid/examiner/:entite', function(req, res) {
 
 app.get('/:uid/observerObjet/:objet', function(req, res) {
     try{
-        let j = listeUtilisateur.get(+req.params.uid);
+        let j = Entite.getEntite(+req.params.uid);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        res.send(j.observerObjet(+req.params.objet));
+        if(!(j instanceof Joueur))
+            throw new CommandNotFoundException();
+        res.send((j as Joueur).observerObjet(+req.params.objet));
     }catch(err){
         gestionErreur(err, res);
     }
@@ -86,10 +93,12 @@ app.get('/:uid/observerObjet/:objet', function(req, res) {
 
 app.get('/:uid/prendre/:obj', function(req, res) {
     try{
-        let j = listeUtilisateur.get(+req.params.uid);
+        let j = Entite.getEntite(+req.params.uid);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        j.prendre(+req.params.obj);
+        if(!(j instanceof Joueur)   ) 
+            throw new CommandNotFoundException();
+        (j as Joueur).prendre(+req.params.obj);
         res.send(j.vue());
     }catch(err){
         gestionErreur(err, res);
@@ -98,10 +107,12 @@ app.get('/:uid/prendre/:obj', function(req, res) {
 
 app.get('/:uid/utiliser/:obj', function(req, res) {
     try{
-        let j = listeUtilisateur.get(+req.params.uid);
+        let j = Entite.getEntite(+req.params.uid);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        j.utiliser(+req.params.obj);
+        if(!(j instanceof Hostile))
+            throw new CommandNotFoundException();
+        (j as Hostile).utiliser(+req.params.obj);
         res.send(j.vue());
     }catch(err){
         gestionErreur(err, res);
@@ -110,10 +121,12 @@ app.get('/:uid/utiliser/:obj', function(req, res) {
 
 app.get('/:uid/deEquiper', function(req, res) {
     try{
-        let j = listeUtilisateur.get(+req.params.uid);
+        let j = Entite.getEntite(+req.params.uid);
         if(j == undefined)
             throw new EntiteNotFoundException();
-        j.deEquiper();
+        if(!(j instanceof Hostile))
+            throw new CommandNotFoundException();
+        (j as Hostile).deEquiper();
         res.send(j.vue());
     }catch(err){
         gestionErreur(err, res);

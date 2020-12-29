@@ -10,12 +10,12 @@ class Hostile extends Entite {
     public arme:Arme|null = null;
     public sac:Objet[] = [];
 
-    constructor(public nom:string, public totalVie:number, public force:number, public guid:number, public salle:Salle){
-        super(nom,totalVie, guid, salle);
+    constructor(public nom:string, public totalVie:number, public force:number, public salle:Salle){
+        super(nom,totalVie, salle);
     }
 
     attaquer(attaque:number):object{
-        let cible = Entite.entites.get(attaque);
+        let cible = Entite.getEntite(attaque);
         if(cible == undefined)
             throw new EntiteNotFoundException();
 
@@ -31,6 +31,10 @@ class Hostile extends Entite {
                 console.log(cible.nom + " a succombé !");
             }else if(cible instanceof Hostile){
                 this.totalVie = this.totalVie - (cible as Hostile).force;
+                if(Math.random()<this.critique){
+                    console.log(this.nom + " donne un coup critique !");
+                    cible.totalVie = cible.totalVie-this.force*0.3;
+                }
                 if(this.totalVie<=0){
                     this.salle = Salle.donjon[-2];
                     console.log(this.nom + " a succombé !");

@@ -6,19 +6,18 @@ const EntiteNotFoundException_1 = require("../Exceptions/EntiteNotFoundException
 const ObjectNotFoundException_1 = require("../Exceptions/ObjectNotFoundException");
 const Salle_1 = require("./Salle");
 class Hostile extends Entite_1.Entite {
-    constructor(nom, totalVie, force, guid, salle) {
-        super(nom, totalVie, guid, salle);
+    constructor(nom, totalVie, force, salle) {
+        super(nom, totalVie, salle);
         this.nom = nom;
         this.totalVie = totalVie;
         this.force = force;
-        this.guid = guid;
         this.salle = salle;
         this.critique = 0.05;
         this.arme = null;
         this.sac = [];
     }
     attaquer(attaque) {
-        let cible = Entite_1.Entite.entites.get(attaque);
+        let cible = Entite_1.Entite.getEntite(attaque);
         if (cible == undefined)
             throw new EntiteNotFoundException_1.EntiteNotFoundException();
         if (cible.salle == this.salle) {
