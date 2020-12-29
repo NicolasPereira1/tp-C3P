@@ -47,7 +47,7 @@ class Joueur extends Hostile {
 
     observerEntite(idx:number):object{
         let entite = Entite.getEntite(idx);
-        if (entite == undefined || entite.salle != this.salle)
+        if (entite.salle != this.salle)
             throw new EntiteNotFoundException();
         return entite.vue();
     }

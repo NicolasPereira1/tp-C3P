@@ -22,15 +22,6 @@ abstract class Entite {
         return entite;
     }
 
-    remove (entites:number[], id:number):number[]{
-        let nouvelleListe:number[] = [];
-        for(let i=0; i<entites.length; i++){
-            if(entites[i] != id)
-                nouvelleListe.push(entites[i]);
-        }
-        return nouvelleListe;
-    }
-
     abstract vue():object;
 }
 

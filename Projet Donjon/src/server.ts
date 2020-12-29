@@ -30,8 +30,6 @@ app.post('/connect', function(req, res) {
 app.get('/:uid/regarder', function(req, res) {
     try{
         let joueur = Entite.getEntite(+req.params.uid);
-        if(joueur == undefined)
-            throw new EntiteNotFoundException();
         res.send(joueur.salle.vue());
     }catch(err){
         gestionErreur(err, res);
@@ -41,8 +39,6 @@ app.get('/:uid/regarder', function(req, res) {
 app.post('/:uid/deplacement', function(req, res) {
     try{
         let j = Entite.getEntite(+req.params.uid);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Joueur))
             throw new  CommandNotFoundException();
         (j as Joueur).deplacer(req.body["direction"]);
@@ -55,8 +51,6 @@ app.post('/:uid/deplacement', function(req, res) {
 app.post('/:attaquant/taper/:attaque', function(req, res){
     try{
         let j = Entite.getEntite(+req.params.attaquant);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Hostile))
             throw new CommandNotFoundException();
         res.send((j as Hostile).attaquer(+req.params.attaque));
@@ -68,8 +62,6 @@ app.post('/:attaquant/taper/:attaque', function(req, res){
 app.get('/:uid/examiner/:entite', function(req, res) {
     try{
         let j = Entite.getEntite(+req.params.uid);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Joueur))
             throw new CommandNotFoundException();
         res.send((j as Joueur).observerEntite(+req.params.entite));
@@ -81,8 +73,6 @@ app.get('/:uid/examiner/:entite', function(req, res) {
 app.get('/:uid/observerObjet/:objet', function(req, res) {
     try{
         let j = Entite.getEntite(+req.params.uid);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Joueur))
             throw new CommandNotFoundException();
         res.send((j as Joueur).observerObjet(+req.params.objet));
@@ -94,8 +84,6 @@ app.get('/:uid/observerObjet/:objet', function(req, res) {
 app.get('/:uid/prendre/:obj', function(req, res) {
     try{
         let j = Entite.getEntite(+req.params.uid);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Joueur)   ) 
             throw new CommandNotFoundException();
         (j as Joueur).prendre(+req.params.obj);
@@ -108,8 +96,6 @@ app.get('/:uid/prendre/:obj', function(req, res) {
 app.get('/:uid/utiliser/:obj', function(req, res) {
     try{
         let j = Entite.getEntite(+req.params.uid);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Hostile))
             throw new CommandNotFoundException();
         (j as Hostile).utiliser(+req.params.obj);
@@ -122,8 +108,6 @@ app.get('/:uid/utiliser/:obj', function(req, res) {
 app.get('/:uid/deEquiper', function(req, res) {
     try{
         let j = Entite.getEntite(+req.params.uid);
-        if(j == undefined)
-            throw new EntiteNotFoundException();
         if(!(j instanceof Hostile))
             throw new CommandNotFoundException();
         (j as Hostile).deEquiper();
@@ -144,9 +128,6 @@ app.post('/*', function(req, res){
 app.listen(8080);
 
 function gestionErreur(erreur:Error, res:Response):void{
-    /*
-        fight entre joueurs
-    */
 
     res.status(400);
     if(erreur instanceof JSONFieldException){

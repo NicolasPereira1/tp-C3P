@@ -16,9 +16,7 @@ class Hostile extends Entite {
 
     attaquer(attaque:number):object{
         let cible = Entite.getEntite(attaque);
-        if(cible == undefined)
-            throw new EntiteNotFoundException();
-
+        
         if (cible.salle == this.salle){
             console.log(this.nom + " attaque : " + cible.nom);
             cible.totalVie = cible.totalVie-this.force;
