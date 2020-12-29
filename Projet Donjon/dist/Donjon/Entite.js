@@ -8,10 +8,6 @@ class Entite {
         this.guid = guid;
         this.salle = salle;
     }
-    static ajouterEntite(entite) {
-        this.entites.push(entite);
-        entite.salle.entites.push(entite.guid);
-    }
     remove(entites, id) {
         let nouvelleListe = [];
         for (let i = 0; i < entites.length; i++) {
@@ -22,4 +18,4 @@ class Entite {
     }
 }
 exports.Entite = Entite;
-Entite.entites = [];
+Entite.entites = new Map();

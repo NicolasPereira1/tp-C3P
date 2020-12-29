@@ -16,39 +16,46 @@ class Hostile extends Entite {
     
     combattre(attaque:number):void {
         this.attaquer(attaque);
-        if(Entite.entites[attaque] instanceof Hostile && Entite.entites[attaque].totalVie>0)
-            (Entite.entites[attaque] as Hostile).combattre(this.guid);
+        // if(Entite.entites[attaque] instanceof Hostile && Entite.entites[attaque].totalVie>0)
+            // (Entite.entites[attaque] as Hostile).combattre(this.guid);
     }
 
     attaquer(attaque:number):object{
-        let cible = Entite.entites[attaque];
-        if(cible == undefined)
-            throw new EntiteNotFoundException();
+        // let cible = Entite.entites[attaque];
+        // if(cible == undefined)
+        //     throw new EntiteNotFoundException();
 
-        if (cible.salle == this.salle){
-            console.log(this.nom + " attaque : " + cible.nom);
-            cible.totalVie = cible.totalVie-this.force;
-            if(Math.random()<this.critique){
-                console.log(this.nom + " donne un coup critique !");
-                cible.totalVie = cible.totalVie-this.force*0.3;
-            }
-            if(cible.totalVie<=0){
-                this.salle.entites = this.remove(this.salle.entites, attaque);
-                cible.salle = Salle.donjon[-2];
-                console.log(cible.nom + " a succombé !");
-            }else if(cible instanceof Hostile){
-                this.totalVie = this.totalVie - (cible as Hostile).force;
-            }
-        } else {
-            throw new EntiteNotFoundException();
-        }
+        // if (cible.salle == this.salle){
+        //     console.log(this.nom + " attaque : " + cible.nom);
+        //     cible.totalVie = cible.totalVie-this.force;
+        //     if(Math.random()<this.critique){
+        //         console.log(this.nom + " donne un coup critique !");
+        //         cible.totalVie = cible.totalVie-this.force*0.3;
+        //     }
+        //     if(cible.totalVie<=0){
+        //         this.salle.entites = this.remove(this.salle.entites, attaque);
+        //         cible.salle = Salle.donjon[-2];
+        //         console.log(cible.nom + " a succombé !");
+        //     }else if(cible instanceof Hostile){
+        //         this.totalVie = this.totalVie - (cible as Hostile).force;
+        //         if(this.totalVie<=0){
+        //             this.salle.entites = this.remove(this.salle.entites, attaque);
+        //             this.salle = Salle.donjon[-2];
+        //             console.log(cible.nom + " a succombé !");
+        //         }
+        //     }
+        // } else {
+        //     throw new EntiteNotFoundException();
+        // }
         
-        let force = 0;
-        if(cible instanceof Hostile)
-            force = cible.force;
+        // let force = 0;
+        // if(cible instanceof Hostile)
+        //     force = cible.force;
 
-        return {  "attaquant":{"guid":this.guid, "degat":this.force, "vie":this.totalVie},
-                  "attaque":  {"guid":cible.guid, "degat":force, "vie":cible.totalVie}};
+        // return {  "attaquant":{"guid":this.guid, "degat":this.force, "vie":this.totalVie},
+        //           "attaque":  {"guid":cible.guid, "degat":force, "vie":cible.totalVie}};
+
+        return {};
     }
     
     utiliser(idx:number):void {

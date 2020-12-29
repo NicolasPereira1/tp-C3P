@@ -12,7 +12,7 @@ class Joueur extends Hostile {
 
     constructor(public nom:string, public totalVie:number, public guid:number, public salle:Salle){
         super(nom, totalVie, 5, guid, salle);
-        salle.entites.push(guid);
+        Entite.entites.set(guid, this);
     }
 
     deplacer(direction:string) {
@@ -42,15 +42,13 @@ class Joueur extends Hostile {
         if(next == undefined){
             throw new NoAccessException();
         }else{
-            this.salle.entites = this.remove(this.salle.entites, this.guid);
             this.salle = next;
-            this.salle.entites.push(this.guid);
         }
     }
 
     observerEntite(idx:number):object{
-        if (this.salle.entites.includes(idx))
-            return Entite.entites[idx].vue();
+        // if (this.salle.entites.includes(idx))
+        //     return Entite.entites[idx].vue();
         throw new EntiteNotFoundException();
     }
     

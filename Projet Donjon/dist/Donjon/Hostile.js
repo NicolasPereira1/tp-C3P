@@ -2,9 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Hostile = void 0;
 const Entite_1 = require("./Entite");
-const EntiteNotFoundException_1 = require("../Exceptions/EntiteNotFoundException");
 const ObjectNotFoundException_1 = require("../Exceptions/ObjectNotFoundException");
-const Salle_1 = require("./Salle");
 class Hostile extends Entite_1.Entite {
     constructor(nom, totalVie, force, guid, salle) {
         super(nom, totalVie, guid, salle);
@@ -19,37 +17,41 @@ class Hostile extends Entite_1.Entite {
     }
     combattre(attaque) {
         this.attaquer(attaque);
-        if (Entite_1.Entite.entites[attaque] instanceof Hostile && Entite_1.Entite.entites[attaque].totalVie > 0)
-            Entite_1.Entite.entites[attaque].combattre(this.guid);
+        // if(Entite.entites[attaque] instanceof Hostile && Entite.entites[attaque].totalVie>0)
+        // (Entite.entites[attaque] as Hostile).combattre(this.guid);
     }
     attaquer(attaque) {
-        let cible = Entite_1.Entite.entites[attaque];
-        if (cible == undefined)
-            throw new EntiteNotFoundException_1.EntiteNotFoundException();
-        if (cible.salle == this.salle) {
-            console.log(this.nom + " attaque : " + cible.nom);
-            cible.totalVie = cible.totalVie - this.force;
-            if (Math.random() < this.critique) {
-                console.log(this.nom + " donne un coup critique !");
-                cible.totalVie = cible.totalVie - this.force * 0.3;
-            }
-            if (cible.totalVie <= 0) {
-                this.salle.entites = this.remove(this.salle.entites, attaque);
-                cible.salle = Salle_1.Salle.donjon[-2];
-                console.log(cible.nom + " a succombé !");
-            }
-            else if (cible instanceof Hostile) {
-                this.totalVie = this.totalVie - cible.force;
-            }
-        }
-        else {
-            throw new EntiteNotFoundException_1.EntiteNotFoundException();
-        }
-        let force = 0;
-        if (cible instanceof Hostile)
-            force = cible.force;
-        return { "attaquant": { "guid": this.guid, "degat": this.force, "vie": this.totalVie },
-            "attaque": { "guid": cible.guid, "degat": force, "vie": cible.totalVie } };
+        // let cible = Entite.entites[attaque];
+        // if(cible == undefined)
+        //     throw new EntiteNotFoundException();
+        // if (cible.salle == this.salle){
+        //     console.log(this.nom + " attaque : " + cible.nom);
+        //     cible.totalVie = cible.totalVie-this.force;
+        //     if(Math.random()<this.critique){
+        //         console.log(this.nom + " donne un coup critique !");
+        //         cible.totalVie = cible.totalVie-this.force*0.3;
+        //     }
+        //     if(cible.totalVie<=0){
+        //         this.salle.entites = this.remove(this.salle.entites, attaque);
+        //         cible.salle = Salle.donjon[-2];
+        //         console.log(cible.nom + " a succombé !");
+        //     }else if(cible instanceof Hostile){
+        //         this.totalVie = this.totalVie - (cible as Hostile).force;
+        //         if(this.totalVie<=0){
+        //             this.salle.entites = this.remove(this.salle.entites, attaque);
+        //             this.salle = Salle.donjon[-2];
+        //             console.log(cible.nom + " a succombé !");
+        //         }
+        //     }
+        // } else {
+        //     throw new EntiteNotFoundException();
+        // }
+        // let force = 0;
+        // if(cible instanceof Hostile)
+        //     force = cible.force;
+        // return {  "attaquant":{"guid":this.guid, "degat":this.force, "vie":this.totalVie},
+        //           "attaque":  {"guid":cible.guid, "degat":force, "vie":cible.totalVie}};
+        return {};
     }
     utiliser(idx) {
         let objet = this.sac.splice(idx, idx + 1);

@@ -1,13 +1,8 @@
 import { Salle } from "./Salle";
 
 abstract class Entite {
-    public static entites:Entite[] = [];
+    public static entites:Map<number,Entite> = new Map<number,Entite>();
     constructor(public nom:string, public totalVie:number, public guid:number, public salle:Salle){}
-    
-    static ajouterEntite(entite:Entite){
-        this.entites.push(entite);
-        entite.salle.entites.push(entite.guid);
-    }
 
     remove (entites:number[], id:number):number[]{
         let nouvelleListe:number[] = [];

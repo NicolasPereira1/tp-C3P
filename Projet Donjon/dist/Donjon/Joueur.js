@@ -15,7 +15,7 @@ class Joueur extends Hostile_1.Hostile {
         this.guid = guid;
         this.salle = salle;
         this.or = 0;
-        salle.entites.push(guid);
+        Entite_1.Entite.entites.set(guid, this);
     }
     deplacer(direction) {
         let next = undefined;
@@ -45,14 +45,12 @@ class Joueur extends Hostile_1.Hostile {
             throw new NoAccessException_1.NoAccessException();
         }
         else {
-            this.salle.entites = this.remove(this.salle.entites, this.guid);
             this.salle = next;
-            this.salle.entites.push(this.guid);
         }
     }
     observerEntite(idx) {
-        if (this.salle.entites.includes(idx))
-            return Entite_1.Entite.entites[idx].vue();
+        // if (this.salle.entites.includes(idx))
+        //     return Entite.entites[idx].vue();
         throw new EntiteNotFoundException_1.EntiteNotFoundException();
     }
     observerObjet(idx) {
