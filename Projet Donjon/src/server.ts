@@ -14,12 +14,7 @@ let app = express();
 let nbrJoueur = 1;
 
 app.use(bodyParser.json());
-
 Salle.inisialiserDonjon();
-
-app.get('/', function(req, res) {
-    res.render('index.ejs');
-});
 
 app.post('/connect', function(req, res) {
     let id = Entite.ajouterEntite(new Joueur("Joueur"+nbrJoueur++, 50, Salle.donjon[0]));
