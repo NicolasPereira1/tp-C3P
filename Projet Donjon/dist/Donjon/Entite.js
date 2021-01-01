@@ -19,14 +19,6 @@ class Entite {
             throw new EntiteNotFoundException_1.EntiteNotFoundException();
         return entite;
     }
-    remove(entites, id) {
-        let nouvelleListe = [];
-        for (let i = 0; i < entites.length; i++) {
-            if (entites[i] != id)
-                nouvelleListe.push(entites[i]);
-        }
-        return nouvelleListe;
-    }
 }
 exports.Entite = Entite;
 Entite.entites = new Map();

@@ -18,8 +18,6 @@ class Hostile extends Entite_1.Entite {
     }
     attaquer(attaque) {
         let cible = Entite_1.Entite.getEntite(attaque);
-        if (cible == undefined)
-            throw new EntiteNotFoundException_1.EntiteNotFoundException();
         if (cible.salle == this.salle) {
             console.log(this.nom + " attaque : " + cible.nom);
             cible.totalVie = cible.totalVie - this.force;
@@ -33,6 +31,10 @@ class Hostile extends Entite_1.Entite {
             }
             else if (cible instanceof Hostile) {
                 this.totalVie = this.totalVie - cible.force;
+                if (Math.random() < this.critique) {
+                    console.log(this.nom + " donne un coup critique !");
+                    cible.totalVie = cible.totalVie - this.force * 0.3;
+                }
                 if (this.totalVie <= 0) {
                     this.salle = Salle_1.Salle.donjon[-2];
                     console.log(this.nom + " a succombé !");

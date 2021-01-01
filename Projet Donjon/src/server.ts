@@ -1,5 +1,7 @@
 import express, { Response } from 'express';
 import bodyParser from 'body-parser';
+import { Entite } from './Donjon/Entite';
+import { Hostile } from './Donjon/Hostile';
 import { Joueur } from './Donjon/Joueur';
 import { Salle } from './Donjon/Salle';
 import { JSONFieldException } from './Exceptions/JSONFieldException';
@@ -7,13 +9,10 @@ import { EntiteNotFoundException } from './Exceptions/EntiteNotFoundException';
 import { ObjectNotFoundException } from './Exceptions/ObjectNotFoundException';
 import { CommandNotFoundException } from './Exceptions/CommandNotFoundException';
 import { NoAccessException } from './Exceptions/NoAccessException';
-import { Entite } from './Donjon/Entite';
-import { Hostile } from './Donjon/Hostile';
 
 let app = express();
 let nbrJoueur = 1;
 
-app.use( express.static( "public" ) );
 app.use(bodyParser.json());
 
 Salle.inisialiserDonjon();
